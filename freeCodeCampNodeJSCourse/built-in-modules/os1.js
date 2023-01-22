@@ -1,7 +1,7 @@
 const os = require('os')  //built in module
 
 //info abt current user
-const user = user.userInfo()
+const user = os.userInfo()
 console.log(user)
 
 //method returns the systenm uptime in seconds
@@ -11,6 +11,6 @@ const currentOS = {
     name: os.type(),
     release: os.release(),
     totalMEm: os.totalmem(),
-    freeMem: os/freeMem(),
+    freeMem: os.freemem(),
 }
 console.log(currentOS)
