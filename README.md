@@ -2,7 +2,8 @@
 
 In this project you will develop an office reservation app. This app should have CRUD operations for Organizations, Offices and Desks that are working with a Mongo database. Only a logged-in user can use these CRUD operations. In this app, you should register a user with an endpoint. You should develop a Jason Web Token (JWT) refresh and access token mechanism for handling user security. We expect you to implement this application with some features as detailed below:
 
-##Features in this project:
+
+## Features in this project:
 * Project is implemented in NodeJs
 * Project design is up to my creativity
 * Project is implemented with Typescript
@@ -27,4 +28,16 @@ node app
 ```
 
 ## Access on the Internet
-[Office Reservation App](http://www.google.fr/ "office-reservation-app")
+[Office Reservation App](http://www.google.tr/ "office-reservation-app")
+
+## Github commands to push code from local to remote repo
+- git init
+- git add README.md
+- git commit -m "commit message"
+- git remote add origin (link)
+- git branch -M main 
+    - if branch is main and pushing an existing repository
+- git pull 
+    - if the repo has difference with local 
+- git push -u origin main
+
