@@ -1,3 +1,5 @@
+//async case: tasks are started without waiting the previous one to be finished
+//code looks so messy -> alternatives: async await
 const {readFileSync, writeFileSync, readFile, writeFile} = require('fs')
 
 readFile('../content/first.txt', 'utf8', (err, result) => {  //not adding 'utf8' causes error
