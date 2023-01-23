@@ -41,3 +41,10 @@ node app
     - if the repo has difference with local 
 - git push -u origin main
 
+## .gitignore file
+- There may be some files/folders that we do not want to push to github.
+- We put these files/directories'names to .gitignore file, so wehen we push the project, these will be ignored.
+- .gitignore file has to be in the root folder.
+- For more info click [here](https://www.freecodecamp.org/news/gitignore-file-how-to-ignore-files-and-folders-in-git/)
+
+
