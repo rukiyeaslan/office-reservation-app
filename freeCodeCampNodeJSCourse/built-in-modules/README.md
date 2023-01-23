@@ -1,4 +1,4 @@
-# npm
+# npm Node's Package Magician
 global command comes with node
 
 ### npm --version
