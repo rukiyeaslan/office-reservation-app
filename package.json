@@ -6,7 +6,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon freeCodeCampNodeJSCourse/event-loop-examples/app.js"
+    "dev": "nodemon freeCodeCampNodeJSCourse/app.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

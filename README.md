@@ -1,6 +1,6 @@
 # Office Reservation App
 
-In this project you will develop an office reservation app. This app should have CRUD operations for Organizations, Offices and Desks that are working with a Mongo database. Only a logged-in user can use these CRUD operations. In this app, you should register a user with an endpoint. You should develop a Jason Web Token (JWT) refresh and access token mechanism for handling user security. We expect you to implement this application with some features as detailed below:
+In this project, I develop an office reservation app. This app should have CRUD operations for Organizations, Offices and Desks that are working with a Mongo database. Only a logged-in user can use these CRUD operations. In this app, you should register a user with an endpoint. You should develop a Jason Web Token (JWT) refresh and access token mechanism for handling user security. We expect you to implement this application with some features as detailed below:
 
 
 ## Features in this project:
@@ -22,7 +22,11 @@ from internet
 
 
 ## Usage
-
+In order to install required packages, once you clone the code first run the command below:
+```javascript
+npm install
+```
+To run the app:
 ```javascript
 node app
 ```
