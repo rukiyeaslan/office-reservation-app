@@ -1,1 +1,1 @@
-So the result is: this is first file, This is second filethe awaited result is: this is first file This is second file
+So the line is: 9998
