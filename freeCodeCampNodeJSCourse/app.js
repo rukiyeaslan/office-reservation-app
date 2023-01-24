@@ -1,25 +1,16 @@
 const express = require('express')
 const app = express()
-const {logger} = require('./logger')
-const authorize = require('./authorize')
-// req => middleware => res
 
-// 1. use vs route
-// 2. options - our own / express / third party
-app.use([logger, authorize]) //we do not need to add logger manuallly to all get methods
-//order matters
+let {members} = require('./data')
 
+app.use(express.static('./methods-public'))
 
-app.get('/', logger, (req, res)=>{
-    res.send('home')
+app.get('/api/members', (req, res)=>{
+    res.status(200).json({success: true, data: members})
 })
 
-app.get('/about', (req, res)=>{
-    res.send('about')
-})
-
-app.get('/api/v1/query', (req, res)=>{
-    res.send('api')
+app.post('/login', (req, res)=>{
+    res.send('POST')
 })
 
 app.listen(3000, ()=>{
