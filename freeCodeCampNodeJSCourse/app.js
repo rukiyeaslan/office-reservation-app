@@ -1,17 +1,21 @@
 const express = require('express')
 const app = express()
+const mongo = require('mongoose')
+const assert = require('assert')  
+//used when we are connecting to the database, to check if everything is correct
 
-let {members} = require('./data')
+const uri = 'mongodb+srv://rukiyeaslan:<Cmpe2019>@cluster0.bw8zrni.mongodb.net/?retryWrites=true&w=majority'
 
-app.use(express.static('./methods-public'))
+async function connect(){
+    try{
+        await mongose.connect(uri)
+        console.log('connected to mongodb')
+    }catch(error){
+        console.log(error)
+    }
+}
 
-app.get('/api/members', (req, res)=>{
-    res.status(200).json({success: true, data: members})
-})
-
-app.post('/login', (req, res)=>{
-    res.send('POST')
-})
+connect()
 
 app.listen(3000, ()=>{
     console.log('server is listening on port 3000')
