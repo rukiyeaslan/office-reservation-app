@@ -1,1 +1,8 @@
-{}
+{
+  "name": "q",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/rukiyeaslan/office-reservation-app.git",
+  "author": "rukiyeaslan <19rasln@gmail.com>",
+  "license": "MIT"
+}
