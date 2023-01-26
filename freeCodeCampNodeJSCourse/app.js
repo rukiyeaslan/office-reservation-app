@@ -7,8 +7,9 @@ const assert = require('assert')
 const uri = 'mongodb+srv://rukiyeaslan:<Cmpe2019>@cluster0.bw8zrni.mongodb.net/?retryWrites=true&w=majority'
 
 async function connect(){
+    console.log('hi')
     try{
-        await mongose.connect(uri)
+        await mongoose.connect(uri)
         console.log('connected to mongodb')
     }catch(error){
         console.log(error)
