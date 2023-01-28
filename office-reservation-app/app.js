@@ -1,57 +1,43 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const Desk = require('./models/desk')
-const app = express()
+const express = require('express');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const deskRoutes = require('./routes/deskRoutes');
 
+// express app
+const app = express();
+
+// connect to mongodb & listen for requests
 const dbURI = 'mongodb+srv://lily:lily2@officeapp.hqnmikq.mongodb.net/office?retryWrites=true&w=majority'
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(result => app.listen(3000))
+  .catch(err => console.log(err));
 
-app.get('/', (req, res)=>{
-    res.send(`<h1>Home</h1>`)
-})
+// register view engine
+app.set('view engine', 'ejs');
 
-app.get('/add-desk', (req, res)=>{
-    const desk = new Desk({
-        id: 1,
-        name: 'desk 1',
-        isReserved: false
-    })
-    desk.save()
-        .then((result)=>{
-            res.send(result)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-})
+// middleware & static files
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
 
-app.get('/all-desks', (req, res)=>{
-    Desk.find()     //returns all desks inside the collection
-        .then((result)=>{
-            res.send(result)
-        })
-        .catch((error)=>{
-            console.log(error)
-        })
-})
+app.use((req, res, next) => {
+  res.locals.path = req.path;
+  next();
+});
 
-app.get('/desk?id', (req, res)=>{
-    console.log(id)
-    const desks = Desk.find()
-    desks.filter((desk)=> desk.id === Number(id))
-        .then((result)=>{
-            res.send(result)
-        })
-        .catch((error)=>{
-            console.log
-        })
-})
-mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then((result)=>{
-        console.log('connected to db')
-        app.listen(3000, ()=>{
-            console.log('server is listening on port 3000')
-        })
-    } )
-    .catch((err)=> console.log(err))
+// routes
+app.get('/', (req, res) => {
+  res.redirect('/desks');
+});
 
+app.get('/about', (req, res) => {
+  res.render('about', { title: 'About' });
+});
 
+// blog routes
+app.use('/desks', deskRoutes);
+
+// 404 page
+app.use((req, res) => {
+  res.status(404).render('404', { title: '404' });
+});
