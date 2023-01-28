@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/rukiyeaslan/office-reservation-app.git",
   "author": "rukiyeaslan <19rasln@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  }
 }
