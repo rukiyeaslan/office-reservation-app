@@ -3,16 +3,13 @@ import mongoose from "mongoose";
 import Desk from "../models/Desk";
 
 const createDesk = (req: Request, res: Response, next: NextFunction)=>{
-    const {name} = req.body.name;
-    const {office} = req.body.office;
-
     //create a new desk
     const desk = new Desk({
-        _id: new mongoose.Types.ObjectId(),
-        name,
-        office
+       _id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        office: req.body.office
     });
-
+    
     return desk.save().then((desk)=> res.status(201).json({desk})).catch(error => res.status(500).json({error}));
 };
 

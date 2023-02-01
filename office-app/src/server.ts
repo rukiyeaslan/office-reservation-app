@@ -2,9 +2,11 @@ import { config } from "./config/config";
 import express from "express";
 import http from 'http';
 import mongoose from 'mongoose';
+import deskRoutes from './routes/Desk';
+import officeRoutes from './routes/Office';
+import organizationRoutes from './routes/Organization';
 
 const router = express();
-
 
 /** Connect to mongo */
 mongoose.connect(config.mongo.url, {retryWrites: true, w: 'majority'})
@@ -43,6 +45,9 @@ const StartServer = ()=>{
     });
 
     /** Routes */
+    router.use('/desks', deskRoutes);
+    router.use('/offices', officeRoutes);
+    router.use('/organizations', organizationRoutes);
 
     /** Healthcheck */
     router.get('/ping', (req, res, next)=>{
