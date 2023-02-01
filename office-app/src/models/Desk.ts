@@ -10,7 +10,7 @@ export interface IDeskModel extends IDesk, Document{}
 const DeskSchema: Schema = new Schema(
     {
         name: { type: String, required: true},
-        office: { type: String, required: true, ref: 'Office'}
+        office: {type: String, required: true, ref: 'Office'}
     },
     {
         versionKey: false

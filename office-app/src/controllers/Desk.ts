@@ -17,7 +17,9 @@ const createDesk = (req: Request, res: Response, next: NextFunction)=>{
 const readDesk = (req: Request, res: Response, next: NextFunction)=>{
     const deskId = req.params.deskId;
 
-    return Desk.findById(deskId).then(desk => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
+    return Desk.findById(deskId)
+        .then(desk => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'}))
+        .catch(error => res.status(404).json({error}));
 };
 
 
