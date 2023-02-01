@@ -1,0 +1,19 @@
+import mongoose, {Document, Schema} from 'mongoose';
+
+export interface IDesk{
+    name: string,
+    office: string
+}
+
+export interface IDeskModel extends IDesk, Document{}
+
+const DeskSchema: Schema = new Schema(
+    {
+        name: { type: String, required: true}
+    },
+    {
+        versionKey: false
+    }
+);
+
+export default mongoose.model<IDeskModel>('Desk', DeskSchema);

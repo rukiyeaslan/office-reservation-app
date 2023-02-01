@@ -1,4 +1,5 @@
-const Desk = require('../models/desk')
+import Desk from "./.models/desk"
+// const Desk = require('../models/desk')
 
 const desk_index = (req, res) => {
   Desk.find().sort({ createdAt: -1 })
