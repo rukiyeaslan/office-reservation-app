@@ -1,7 +1,7 @@
 /** takes a token checks if it's valid */
 
 import { NextFunction, Request, Response } from 'express';
-
+import jwt from 'jsonwebtoken';
 const NAMESPACE = "Auth";
 
 const extractJWT = (req: Request, res: Response, next: NextFunction) => {
