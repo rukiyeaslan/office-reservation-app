@@ -1,6 +1,6 @@
 # Office Reservation App
 
-In this project, I develop an office reservation app. This app should have CRUD operations for Organizations, Offices and Desks that are working with a Mongo database. Only a logged-in user can use these CRUD operations. In this app, you should register a user with an endpoint. You should develop a Jason Web Token (JWT) refresh and access token mechanism for handling user security. We expect you to implement this application with some features as detailed below:
+In this project, I develop an office reservation app. This app should have CRUD operations for Organizations, Offices and Desks that are working with a Mongo database. Only a logged-in user can use these CRUD operations. In this app, I register a user with an endpoint. I develop a Jason Web Token (JWT) refresh and access token mechanism for handling user security.
 
 
 ## Features in this project:
@@ -31,9 +31,11 @@ To run the app:
 node app
 ```
 
-## Access on the Internet
+
+## Access on the Internet(coming soon...)
 [Office Reservation App](http://www.google.tr/ "office-reservation-app")
 
+# Some useful info for the project implementation in general
 ## Github commands to push code from local to remote repo
 - git init
 - git add README.md
@@ -44,6 +46,7 @@ node app
 - git pull 
     - if the repo has difference with local 
 - git push -u origin main
+
 
 ## .gitignore file
 - There may be some files/folders that we do not want to push to github.
