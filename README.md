@@ -32,7 +32,7 @@ node app
 ```
 
 ## Project codes on the github:
-To access project codes click [here](https://github.com/rukiyeaslan/office-reservation-app/tree/main "office-app"office-reservation-app-github-codes") 
+To access project codes click [here](https://github.com/rukiyeaslan/office-reservation-app/tree/main) 
 
 ## Access on the Internet(coming soon...)
 [Office Reservation App](http://www.google.tr/ "office-reservation-app")
