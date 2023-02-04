@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import {OfficeModel} from '../models/Models';
+import {OfficeModel, OrganizationModel} from '../models/Models';
 
-const createOffice = (req: Request, res: Response, next: NextFunction)=>{
+const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
     //create a new office
     const office = new OfficeModel({
         ...req.body
     });
-    
+    const organization = await OrganizationModel.findById(req.body.organization);
+    organization?.offices.push(office);
+    await organization?.save();
     return office.save().then((office)=> res.status(201).json({office})).catch(error => res.status(500).json({error}));
 };
 
@@ -27,14 +29,40 @@ const readAllOffice = (req: Request, res: Response, next: NextFunction)=>{
 };
 
 
-const updateOffice = (req: Request, res: Response, next: NextFunction)=>{
+const updateOffice= async (req: Request, res: Response, next: NextFunction)=>{
     const officeId = req.params.officeId;
-
-    return OfficeModel.findById(officeId)
-        .then(office => {
+    const organizationIdAfter = req.body.organization;  // organization id of the updated desk
+    let organizationIdBefore = null;              // organization id of the desk before put request is sent
+    
+    return await OfficeModel.findById(officeId)
+        .then(async office => {
             if(office){
+                organizationIdBefore = office.organization;
                 office.set(req.body);
+                const organization = await OrganizationModel.findById(organizationIdBefore);
+                
+                if(!organization){
+                    return res.status(404).json({message: "Not found!"});
+                }
 
+                const officeIndex = organization.offices.findIndex(organizationOffice => String(organizationOffice._id) === String(office._id));
+                if(String(organizationIdBefore) === String(organizationIdAfter)){    // Update office in organization's offices array
+                    organization.offices[officeIndex] = office;
+                    await organization.save();
+                }
+                else{    //change office
+                    const newOrganization = await OrganizationModel.findById(req.body.organization);
+                    if(!newOrganization){
+                        return res.status(404).json({message: "Not found!"});
+                    }
+                    
+                    organization.offices.splice(officeIndex, 1);    //remove the office from previous organization's offices array   
+                    console.log()
+                    await organization.save();
+                    newOrganization.offices.push(office);
+                    await newOrganization.save();
+                }
+                
                 return office
                     .save()
                     .then((office) => res.status(201).json({office}))

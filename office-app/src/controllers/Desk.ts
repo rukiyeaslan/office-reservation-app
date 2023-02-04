@@ -57,7 +57,7 @@ const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
                     office.desks[deskIndex] = desk;
                     await office.save();
                 }
-               else{    //change office
+                else{    //change office
                     const newOffice = await OfficeModel.findById(req.body.office);
                     if(!newOffice){
                         return res.status(404).json({message: "Not found!"});
