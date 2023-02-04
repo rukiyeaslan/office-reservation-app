@@ -29,12 +29,12 @@ const readAllOffice = (req: Request, res: Response, next: NextFunction)=>{
 };
 
 
-const updateOffice= async (req: Request, res: Response, next: NextFunction)=>{
+const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
     const officeId = req.params.officeId;
     const organizationIdAfter = req.body.organization;  // organization id of the updated desk
     let organizationIdBefore = null;              // organization id of the desk before put request is sent
     
-    return await OfficeModel.findById(officeId)
+    return OfficeModel.findById(officeId)
         .then(async office => {
             if(office){
                 organizationIdBefore = office.organization;
@@ -83,5 +83,6 @@ const deleteOffice = (req: Request, res: Response, next: NextFunction)=>{
         .then((office) => (office ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
         .catch((error) => res.status(500).json({error}));
 };
+
 
 export default { createOffice, readOffice, readAllOffice, updateOffice, deleteOffice};
