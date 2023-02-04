@@ -50,7 +50,7 @@ const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
                 //TODO: handle change in office id
                 const office = await OfficeModel.findById(officeIdBefore);
                 if(!office){
-                    return res.status(404).json({message: "Not found!"});
+                    return res.status(404).json({message: " office not found!"});
                 }
                 const deskIndex = office.desks.findIndex(officeDesk => String(officeDesk._id) === String(desk._id));
                 if(String(officeIdBefore) === String(officeIdAfter)){   // Update desk in office's desk array
@@ -60,7 +60,7 @@ const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
                 else{    //change office
                     const newOffice = await OfficeModel.findById(req.body.office);
                     if(!newOffice){
-                        return res.status(404).json({message: "Not found!"});
+                        return res.status(404).json({message: "new office not found!"});
                     }
                     
                     office.desks.splice(deskIndex, 1);  //remove the desk from previous office's desk array   
@@ -76,7 +76,7 @@ const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
                     .catch(error => res.status(500).json({error}));
             }
             else{
-                res.status(404).json({message: 'not found!'})
+                res.status(404).json({message: 'desk not found!'})
             }
         })
         .catch(error => res.status(500).json({error}));

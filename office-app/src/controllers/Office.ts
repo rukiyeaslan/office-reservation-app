@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import {OfficeModel, OrganizationModel} from '../models/Models';
+import {DeskModel, OfficeModel, OrganizationModel} from '../models/Models';
 
 const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
     //create a new office
@@ -69,7 +69,7 @@ const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
                     .catch(error => res.status(500).json({error}));
             }
             else{
-                res.status(404).json({message: 'not found!'})
+                res.status(404).json({message: 'not found!'});
             }
         })
         .catch(error => res.status(500).json({error}));
@@ -78,9 +78,21 @@ const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
 
 const deleteOffice = (req: Request, res: Response, next: NextFunction)=>{
     const officeId = req.params.officeId;
-
+    OfficeModel.findById(officeId)
+        .then(office => {
+            if(office){
+                for(let i=0; i< office?.desks.length; i++){
+                    const deskId = office.desks[i]._id;
+                    DeskModel.findByIdAndDelete(deskId);
+                }
+            }else{
+                res.status(404).json({message: 'not found!'});
+            }
+            
+        })
+        .catch(error => res.status(404).json({message: error.message}));
     return OfficeModel.findByIdAndDelete(officeId)
-        .then((office) => (office ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
+        .then((office) => (office ? res.status(201).json({message: 'office deleted'}) : res.status(404).json({message: 'Not found'})))
         .catch((error) => res.status(500).json({error}));
 };
 
