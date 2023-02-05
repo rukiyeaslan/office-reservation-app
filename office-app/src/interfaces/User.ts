@@ -1,5 +1,5 @@
 export default interface IUSer {
     username: string,
     password: string,
-    role: String
+    role: string
 }

@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import bcryptjs from 'bcryptjs';
+import { UserModel } from "../models/User";
+import signJWT from "../functions/signJWT";
 /** constant namespace to keep track of the login */
 const NAMESPACE = "User";
 
@@ -22,14 +24,52 @@ const register = (req: Request, res: Response, next: NextFunction) =>{
                 error: hashError
             });
         }
+        /**create a user */
+        const _user = new UserModel({
+            username,
+            password: hash
+        })
 
-        //TODO: Insert user into DB
+        return _user.save()
+                .then((user: any) =>{
+                    return res.status(201).json({user});
+                })
+                .catch((error: { message: any; }) => {
+                    return res.status(500).json({
+                        message: error.message,
+                        error
+                    })
+                }) 
     })
 }
 
 /** login the user and return that user */
 const login = (req: Request, res: Response, next: NextFunction) =>{
-    
+    let {username, password} = req.body;
+    UserModel.find({username})
+    .exec()
+    .then(users => {
+        if(users.length != 1){
+            return res.status(401).json({
+                message: 'unauthorized'
+            });
+        }
+
+        bcryptjs.compare(password, users[0].password, (error, result)=>{
+            if(error){
+                return res.status(401).json({
+                    message: 'unauthorized'
+                });
+            }
+
+            else if(result){  //user is logged in return a token
+                signJWT(users[0], (_error, token)=>{
+                    
+                })
+            }
+        })
+    })
+    .catch()
 }
 
 /** return each user in the database and not showing the passwords */

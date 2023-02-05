@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import {config} from "../config/config";
-import UserModel from "../interfaces/User";
+import {User} from "../models/User";
 
 
-const signJWT = (user: UserModel, callback: (error: Error | null, token: string | null) => void): void =>{
+const signJWT = (user: User, callback: (error: Error | null, token: string | null) => void): void =>{
     var timeSinchEPoch = new Date().getTime();
     var expirationTime = timeSinchEPoch + Number(config.server.token.expireTime) * 100000 //to get in miliseconds
     var expirationTimeInSeconds = Math.floor(expirationTime / 1000);
@@ -29,7 +29,7 @@ const signJWT = (user: UserModel, callback: (error: Error | null, token: string 
                 }
             }
         )
-    }catch(error){
+    }catch(error :any){
         callback(error, null);
     }
 }
