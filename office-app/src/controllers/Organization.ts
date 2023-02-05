@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import {OrganizationModel} from '../models/Models';
+import {OfficeModel, OrganizationModel} from '../models/Models';
 
 const createOrganization = (req: Request, res: Response, next: NextFunction)=>{
     //create a new organization
@@ -50,10 +50,22 @@ const updateOrganization = (req: Request, res: Response, next: NextFunction)=>{
 
 const deleteOrganization = (req: Request, res: Response, next: NextFunction)=>{
     const organizationId = req.params.organizationId;
-
+    OrganizationModel.findById(organizationId)
+        .then(organization => {
+            if(organization){
+                for(let i=0; i< organization?.offices.length; i++){
+                    const officeId = organization.offices[i]._id;
+                    OfficeModel.findByIdAndDelete(officeId);
+                }
+            }else{
+                res.status(404).json({message: 'not found!'});
+            }
+        })
+        .catch(error => res.status(404).json({message: error.message}));
     return OrganizationModel.findByIdAndDelete(organizationId)
         .then((organization) => (organization ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
         .catch((error) => res.status(500).json({error}));
-};
+
+    };
 
 export default { createOrganization, readOrganization, readAllOrganization, updateOrganization, deleteOrganization};
