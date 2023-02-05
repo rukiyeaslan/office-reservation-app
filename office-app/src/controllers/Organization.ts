@@ -47,7 +47,7 @@ const updateOrganization = (req: Request, res: Response, next: NextFunction)=>{
         .catch(error => res.status(500).json({error}));
 };
 
-
+//TODO: delete desks
 const deleteOrganization = (req: Request, res: Response, next: NextFunction)=>{
     const organizationId = req.params.organizationId;
     OrganizationModel.findById(organizationId)

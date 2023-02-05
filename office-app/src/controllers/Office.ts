@@ -76,6 +76,7 @@ const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
 };
 
 
+//TODO: update organization
 const deleteOffice = (req: Request, res: Response, next: NextFunction)=>{
     const officeId = req.params.officeId;
     OfficeModel.findById(officeId)

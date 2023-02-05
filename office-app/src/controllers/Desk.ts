@@ -37,7 +37,7 @@ const readAllDesk = async (req: Request, res: Response) => {
     .catch(error => res.status(404).json({error}));
 };
 
-
+//TODO: update organization
 const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
     const deskId = req.params.deskId;
     const officeIdAfter = req.body.office;  // office id of the updated desk
@@ -82,7 +82,7 @@ const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
         .catch(error => res.status(500).json({error}));
 };
 
-
+//TODO: delete by chaining
 const deleteDesk = async (req: Request, res: Response, next: NextFunction)=>{
     const deskId = req.params.deskId;
 
