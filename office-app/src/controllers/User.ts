@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import bcryptjs from 'bcryptjs';
-import { UserModel } from "../models/User";
+import { User, UserModel } from "../models/User";
 import signJWT from "../functions/signJWT";
 /** constant namespace to keep track of the login */
 const NAMESPACE = "User";
@@ -14,8 +14,8 @@ const validateToken = (req: Request, res: Response, next: NextFunction) =>{
 
 /** create a new user and store in the database */
 const register = (req: Request, res: Response, next: NextFunction) =>{
-    let {username, password} = req.body;
-
+    let {username, password, role} = req.body;
+    console.log(`user is here ${username} with passord ${password}`);
     //hashing to encrypt the passwords
     bcryptjs.hash(password, 10, (hashError, hash) => {
         if(hashError){
@@ -27,8 +27,10 @@ const register = (req: Request, res: Response, next: NextFunction) =>{
         /**create a user */
         const _user = new UserModel({
             username,
-            password: hash
+            password: hash,
+            role
         })
+        
 
         return _user.save()
                 .then((user: any) =>{
@@ -55,26 +57,53 @@ const login = (req: Request, res: Response, next: NextFunction) =>{
             });
         }
 
-        bcryptjs.compare(password, users[0].password, (error, result)=>{
-            if(error){
+        bcryptjs.compare(password, users[0].password, (error, result) => {
+            if (error) {
                 return res.status(401).json({
-                    message: 'unauthorized'
+                    message: 'Password Mismatch'
+                });
+            } else if (result) {
+                signJWT(users[0], (_error, token) => {
+                    if (_error) {
+                        return res.status(500).json({
+                            message: _error.message, 
+                            error: _error // unauthorized
+                        });
+                    } else if (token) {
+                        return res.status(200).json({
+                            message: 'Auth successful',
+                            token: token,
+                            user: users[0]
+                        });
+                    }
                 });
             }
-
-            else if(result){  //user is logged in return a token
-                signJWT(users[0], (_error, token)=>{
-                    
-                })
-            }
-        })
+        });
     })
-    .catch()
-}
+    .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+};
 
-/** return each user in the database and not showing the passwords */
-const getAllUsers = (req: Request, res: Response, next: NextFunction) =>{
-    
-}
+const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+    UserModel.find()
+        .select('-password')
+        .exec()
+        .then((users) => {
+            return res.status(200).json({
+                users: users,
+                count: users.length
+            });
+        })
+        .catch((error) => {
+            return res.status(500).json({
+                message: error.message,
+                error
+            });
+        });
+};
 
 export default { validateToken, register, login, getAllUsers};

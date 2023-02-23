@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import deskRoutes from './routes/Desk';
 import officeRoutes from './routes/Office';
 import organizationRoutes from './routes/Organization';
+import userRoutes from './routes/User';
 
 const router = express();
 
@@ -48,7 +49,8 @@ const StartServer = ()=>{
     router.use('/desks', deskRoutes);
     router.use('/offices', officeRoutes);
     router.use('/organizations', organizationRoutes);
-
+    router.use('/users', userRoutes);
+    
     /** Healthcheck */
     router.get('/ping', (req, res, next)=>{
         res.status(200).json({messgae: 'pong'});
@@ -57,7 +59,7 @@ const StartServer = ()=>{
 
     /** Error Handling */
     router.use((req, res, next)=>{
-        const error = new Error('not found');
+        const error = new Error('route not found');
         console.log(error);
 
         return res.status(404).json({message: error.message});
