@@ -78,6 +78,11 @@ const login = (req: Request, res: Response, next: NextFunction) =>{
                     }
                 });
             }
+            else{
+                return res.status(401).json({
+                    message: 'Login Unsuccessful, wrong username and password'
+                });
+            }
         });
     })
     .catch((err) => {

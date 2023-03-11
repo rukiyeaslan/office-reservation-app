@@ -1,9 +1,8 @@
 /** takes a token checks if it's valid */
-
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/config';
-import { UserModel } from '../models/User';
+import { User, UserModel } from '../models/User';
 const NAMESPACE = "Auth";
 
 
@@ -29,10 +28,11 @@ const extractJWT = (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-const authAdmin = (req: Request, res: Response, next: NextFunction) =>{
-        if (req.body.role !== 'ADMIN'){
-            return res.status(401).json({message: 'you must be an admin'});
-        }
-}
+// const authAdmin = (req: Request, res: Response, next: NextFunction) =>{
+//         const user = req.user as User;
+//         if (user.role !== 'ADMIN'){
+//             return res.status(401).json({message: 'you must be an admin'});
+//         }
+// }
 
-export default {extractJWT, authAdmin};
+export default {extractJWT};
