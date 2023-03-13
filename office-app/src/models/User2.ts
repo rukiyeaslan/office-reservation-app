@@ -52,7 +52,7 @@ export class User {
     password: string;
   
     @prop({ required: true, default: () => nanoid() })
-  verificationCode: string;
+    verificationCode: string;
   
     @prop()
     passwordResetCode: string | null;

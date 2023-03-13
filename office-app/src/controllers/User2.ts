@@ -1,8 +1,9 @@
 import {Request, Response} from "express";
-import { CreateUserInput, ForgotPasswordInput, VerifyUserInput } from "../schemas/User";
+import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput } from "../schemas/User";
 import { createUser, findUserById, findByEmail } from "../service/User2";
 import sendEmail from "../utils/mailer";
 import {nanoid} from 'nanoid';
+import UserModel from "../models/User2";
 
 export async function createUserHandler(req: Request<{}, {}, CreateUserInput>, res: Response){
     const body = req.body;
@@ -84,6 +85,24 @@ export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordI
         subject: "Reset your password for the office reservation app",
         text: `Password reset code: ${passwordResetCode}. Id: ${user.id}`
     });
-    
+
     return res.send(message);
+}
+
+export async function resetPasswordHandler(req:Request<ResetPasswordInput['params'], {}, ResetPasswordInput['body']>, res: Response){
+    const body = req.body;
+    const {id, passwordResetCode} = req.params;
+    const { password} = req.body;
+
+    const user = await findUserById(id);
+
+    if(!user || !user.passwordResetCode || user.passwordResetCode !== passwordResetCode){
+        return res.status(400).send('Could not reset the password');
+    }
+
+    user.passwordResetCode = null;
+    user.password = password;
+    await user.save();
+
+    return res.send('successfully updated user password');
 }
