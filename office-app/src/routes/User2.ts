@@ -1,9 +1,11 @@
 import express from "express";
-import { createUserHandler } from "../controllers/User2";
+import { createUserHandler, verifyUserHandler } from "../controllers/User2";
 import validateResource from "../middleware/validateResources";
-import { createUserSchema } from "../schemas/User";
+import { createUserSchema, verifyUserSchema } from "../schemas/User";
 
 const router = express.Router();
 
-router.post('/users', validateResource(createUserSchema), createUserHandler)
+router.post('/register', validateResource(createUserSchema), createUserHandler)
+router.post('/verify/:id/:verificationCode', validateResource(verifyUserSchema), verifyUserHandler);
+
 export = router;
