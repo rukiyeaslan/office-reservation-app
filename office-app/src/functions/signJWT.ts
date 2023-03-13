@@ -34,4 +34,5 @@ const signJWT = (user: User, callback: (error: Error | null, token: string | nul
     }
 }
 
+
 export default signJWT

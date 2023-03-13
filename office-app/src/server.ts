@@ -5,7 +5,10 @@ import mongoose from 'mongoose';
 import deskRoutes from './routes/Desk';
 import officeRoutes from './routes/Office';
 import organizationRoutes from './routes/Organization';
-import userRoutes from './routes/User';
+// import userRoutes from './routes/User';
+
+import userRoutes from './routes/User2';
+import sendEmail from "./utils/mailer";
 
 const router = express();
 
