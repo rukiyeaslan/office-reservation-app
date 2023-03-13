@@ -9,8 +9,9 @@ import organizationRoutes from './routes/Organization';
 
 import userRoutes from './routes/User2';
 import sendEmail from "./utils/mailer";
-
+// console.log('no error 1');
 const router = express();
+// console.log('no error 2');
 
 /** Connect to mongo */
 mongoose.connect(config.mongo.url, {retryWrites: true, w: 'majority'})

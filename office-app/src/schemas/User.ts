@@ -11,13 +11,13 @@ export const createUserSchema = object({
         password: string({
             required_error: "passord is required"
         }).min(6, "Password is too short - should be min 6 chars"),
-        passswordConfirmation: string({
+        passwordConfirmation: string({
             required_error: "passswordConfirmation is required"
         }),
         email: string({
             required_error: "email is required"
         }).email("Not a valid email"),
-    }).refine((data) => data.password === data.passswordConfirmation, {
+    }).refine((data) => data.password === data.passwordConfirmation, {
         message: "Passwords do not match",
         path: ["passwordConfirmation"],
     })
