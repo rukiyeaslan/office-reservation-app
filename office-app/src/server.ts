@@ -6,13 +6,11 @@ import deskRoutes from './routes/Desk';
 import officeRoutes from './routes/Office';
 import organizationRoutes from './routes/Organization';
 import sessionRoutes from './routes/Auth';
-// import userRoutes from './routes/User';
 
 import userRoutes from './routes/User2';
-import sendEmail from "./utils/mailer";
-// console.log('no error 1');
+import deserializeUser from "./middleware/deserializeUser";
+
 const router = express();
-// console.log('no error 2');
 
 /** Connect to mongo */
 mongoose.connect(config.mongo.url, {retryWrites: true, w: 'majority'})
@@ -36,7 +34,7 @@ const StartServer = ()=>{
 
     router.use(express.urlencoded({extended: true}));
     router.use(express.json()); //I only want json requests
-
+    router.use(deserializeUser);
     /** Rules of our API */
     router.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*');

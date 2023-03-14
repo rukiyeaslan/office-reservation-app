@@ -28,7 +28,8 @@ export async function createUserHandler(req: Request<{}, {}, CreateUserInput>, r
         }
         return res.status(500).send(e);
     }
-}
+};
+
 
 export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Response){
     const id = req.params.id;
@@ -56,7 +57,8 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
     }
 
     return res.send('could not verify the user');
-}
+};
+
 
 export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordInput>, res: Response){
     const message = "If a user with that email is registered, you will receive a password reset email";
@@ -87,7 +89,7 @@ export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordI
     });
 
     return res.send(message);
-}
+};
 
 export async function resetPasswordHandler(req:Request<ResetPasswordInput['params'], {}, ResetPasswordInput['body']>, res: Response){
     const body = req.body;
@@ -105,4 +107,10 @@ export async function resetPasswordHandler(req:Request<ResetPasswordInput['param
     await user.save();
 
     return res.send('successfully updated user password');
-}
+};
+
+
+export async function getCurrentUserHandler(req: Request, res: Response){
+    console.log(res.locals.user);
+    return res.send(res.locals.user);
+};
