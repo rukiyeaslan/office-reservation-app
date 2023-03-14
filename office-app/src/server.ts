@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import deskRoutes from './routes/Desk';
 import officeRoutes from './routes/Office';
 import organizationRoutes from './routes/Organization';
+import sessionRoutes from './routes/Auth';
 // import userRoutes from './routes/User';
 
 import userRoutes from './routes/User2';
@@ -54,7 +55,7 @@ const StartServer = ()=>{
     router.use('/offices', officeRoutes);
     router.use('/organizations', organizationRoutes);
     router.use('/users', userRoutes);
-    
+    router.use('/sessions', sessionRoutes);
     /** Healthcheck */
     router.get('/ping', (req, res, next)=>{
         res.status(200).json({messgae: 'pong'});

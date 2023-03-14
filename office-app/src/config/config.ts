@@ -24,11 +24,14 @@ export const config = {
             secret: SERVER_TOKEN_SECRET
         }
     },
+    accessTokenPrivateKey: "",
+    refreshTokenPrivateKey: "",
     smtp:{
         user: 'r56neg7zumgk5e3w@ethereal.email',
         pass: 'k4ZXRxsZzPucDeqSV2',
         host: 'smtp.ethereal.email', 
         port: 587, 
         secure: false 
-    }
+    },
+    
 };

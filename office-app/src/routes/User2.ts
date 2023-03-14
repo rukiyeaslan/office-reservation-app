@@ -9,5 +9,5 @@ router.post('/register', validateResource(createUserSchema), createUserHandler)
 router.post('/verify/:id/:verificationCode', validateResource(verifyUserSchema), verifyUserHandler);
 router.post('/forgotPassword', validateResource(forgotPasswordSchema), forgotPasswordHandler);
 router.post('/resetPassword/:id/:passwordResetCode', validateResource(resetPasswordSchema), resetPasswordHandler);
-
+// router.get('/me', requireUser, getCurrentUserHandler);
 export = router;
