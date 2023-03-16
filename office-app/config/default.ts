@@ -1,6 +1,8 @@
 export default {
     port: 3000,
     logLevel: "info",
+    accessTokenPrivateKey: "",
+    refreshTokenPrivateKey: "",
     smtp:{
         user: 'r56neg7zumgk5e3w@ethereal.email',
         pass: 'k4ZXRxsZzPucDeqSV2',

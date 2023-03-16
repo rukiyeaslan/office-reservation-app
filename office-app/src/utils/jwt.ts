@@ -11,6 +11,10 @@ export function signJwt(
     "base64"
   ).toString("ascii");
 
+  //debug
+  console.log(config.get<string>(keyName));
+  console.log(signingKey);
+  
   return jwt.sign(object, signingKey, {
     ...(options && options),
     algorithm: "RS256",
