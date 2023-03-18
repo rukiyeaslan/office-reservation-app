@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput } from "../schemas/User";
+import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput, AuthAdminInput } from "../schemas/User";
 import { createUser, findUserById, findByEmail } from "../service/User2";
 import sendEmail from "../utils/mailer";
 import {nanoid} from 'nanoid';
@@ -59,6 +59,27 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
     return res.send('could not verify the user');
 };
 
+export async function adminAuthHandler(req: Request<AuthAdminInput>, res: Response){
+    const id = req.params.id;
+    const user = await findUserById(id);
+
+    if(!user){
+        return res.send('Could not verify the user');
+    }
+
+    //check to see if role is admin
+    if(user.role !== 'admin'){
+        return res.send('To perfomr this operation you should be an admin');
+    }
+
+    //check to see if the verification code matches
+    if(user.role === 'admin'){
+        return res.send('you have a');
+    }
+
+    return res.send('could not verify the user');
+
+}
 
 export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordInput>, res: Response){
     const message = "If a user with that email is registered, you will receive a password reset email";

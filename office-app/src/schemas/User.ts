@@ -11,6 +11,9 @@ export const createUserSchema = object({
         password: string({
             required_error: "passord is required"
         }).min(6, "Password is too short - should be min 6 chars"),
+        role: string({
+            required_error: "role is required"
+        }),
         passwordConfirmation: string({
             required_error: "passswordConfirmation is required"
         }),
@@ -30,6 +33,21 @@ export const verifyUserSchema = object({
     }),
 });
 
+
+export const AuthAdminSchema = object({
+    params: object({
+        id: string()
+    }),
+    body: object({
+        role: string({
+            required_error: "role is required"
+        })
+    }).refine((data) => data.role === "ADMIN", {
+        message: "To perform this operation, you must be an admin",
+        path: ["admin authentication"],})
+});
+
+
 export const forgotPasswordSchema = object({
     body: object({
         email: string({
@@ -38,6 +56,7 @@ export const forgotPasswordSchema = object({
     })
 });
 
+
 export const resetPasswordSchema = object({
     params: object({
         id: string(),
@@ -45,7 +64,7 @@ export const resetPasswordSchema = object({
     }),
     body: object({
         password: string({
-            required_error: "passord is required"
+            required_error: "password is required"
         }).min(6, "Password is too short - should be min 6 chars"),
         passwordConfirmation: string({
             required_error: "passwordConfirmation is required"
@@ -56,6 +75,7 @@ export const resetPasswordSchema = object({
 });
 
 export type CreateUserInput = TypeOf<typeof createUserSchema>['body'];
+export type AuthAdminInput = TypeOf<typeof AuthAdminSchema>;
 export type VerifyUserInput = TypeOf<typeof verifyUserSchema>['params'];
 export type ForgotPasswordInput = TypeOf<typeof forgotPasswordSchema>['body'];
 export type ResetPasswordInput = TypeOf<typeof resetPasswordSchema>;
