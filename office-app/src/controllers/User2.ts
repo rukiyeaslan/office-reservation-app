@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput, AuthAdminInput } from "../schemas/User";
+import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput } from "../schemas/User";
 import { createUser, findUserById, findByEmail } from "../service/User2";
 import sendEmail from "../utils/mailer";
 import {nanoid} from 'nanoid';
@@ -59,26 +59,32 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
     return res.send('could not verify the user');
 };
 
-export async function adminAuthHandler(req: Request<AuthAdminInput>, res: Response){
-    const id = req.params.id;
-    const user = await findUserById(id);
+export async function adminAuthHandler(req:Request, res: Response){
+    
+    const user = res.locals.user;
+    const role = user.role;
 
-    if(!user){
-        return res.send('Could not verify the user');
-    }
-
-    //check to see if role is admin
-    if(user.role !== 'admin'){
+    if(user.role !== 'ADMIN'){
         return res.send('To perfomr this operation you should be an admin');
     }
 
-    //check to see if the verification code matches
-    if(user.role === 'admin'){
-        return res.send('you have a');
+    if(user.role === 'ADMIN'){
+        return res.send('successful');
+    }
+}
+
+export async function SuperAdminAuthHandler(req:Request, res: Response){
+    
+    const user = res.locals.user;
+    const role = user.role;
+
+    if(user.role !== 'SUPER_ADMIN'){
+        return res.send('To perfomr this operation you should be an admin');
     }
 
-    return res.send('could not verify the user');
-
+    if(user.role === 'SUPER_ADMIN'){
+        return res.send('successful');
+    }
 }
 
 export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordInput>, res: Response){
@@ -132,6 +138,6 @@ export async function resetPasswordHandler(req:Request<ResetPasswordInput['param
 
 
 export async function getCurrentUserHandler(req: Request, res: Response){
-    console.log(res.locals.user);
+
     return res.send(res.locals.user);
 };

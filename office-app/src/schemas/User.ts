@@ -34,20 +34,6 @@ export const verifyUserSchema = object({
 });
 
 
-export const AuthAdminSchema = object({
-    params: object({
-        id: string()
-    }),
-    body: object({
-        role: string({
-            required_error: "role is required"
-        })
-    }).refine((data) => data.role === "ADMIN", {
-        message: "To perform this operation, you must be an admin",
-        path: ["admin authentication"],})
-});
-
-
 export const forgotPasswordSchema = object({
     body: object({
         email: string({
@@ -75,7 +61,6 @@ export const resetPasswordSchema = object({
 });
 
 export type CreateUserInput = TypeOf<typeof createUserSchema>['body'];
-export type AuthAdminInput = TypeOf<typeof AuthAdminSchema>;
 export type VerifyUserInput = TypeOf<typeof verifyUserSchema>['params'];
 export type ForgotPasswordInput = TypeOf<typeof forgotPasswordSchema>['body'];
 export type ResetPasswordInput = TypeOf<typeof resetPasswordSchema>;
