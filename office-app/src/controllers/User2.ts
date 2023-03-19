@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput } from "../schemas/User";
 import { createUser, findUserById, findByEmail } from "../service/User2";
 import sendEmail from "../utils/mailer";
@@ -59,18 +59,16 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
     return res.send('could not verify the user');
 };
 
-export async function adminAuthHandler(req:Request, res: Response){
+export async function AdminAuthHandler(req:Request, res: Response, next: NextFunction){
     
     const user = res.locals.user;
     const role = user.role;
-
+    console.log(user.role);
     if(user.role !== 'ADMIN'){
         return res.send('To perfomr this operation you should be an admin');
     }
 
-    if(user.role === 'ADMIN'){
-        return res.send('successful');
-    }
+    next();
 }
 
 export async function SuperAdminAuthHandler(req:Request, res: Response){
