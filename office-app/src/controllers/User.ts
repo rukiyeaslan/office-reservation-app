@@ -3,7 +3,6 @@ import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInp
 import { createUser, findUserById, findByEmail } from "../service/User";
 import sendEmail from "../utils/mailer";
 import {nanoid} from 'nanoid';
-import UserModel from "../models/User";
 
 export async function createUserHandler(req: Request<{}, {}, CreateUserInput>, res: Response){
     const body = req.body;

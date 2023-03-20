@@ -7,7 +7,7 @@ import officeRoutes from './routes/Office';
 import organizationRoutes from './routes/Organization';
 import sessionRoutes from './routes/Auth';
 
-import userRoutes from './routes/User2';
+import userRoutes from './routes/User';
 import deserializeUser from "./middleware/deserializeUser";
 
 const router = express();

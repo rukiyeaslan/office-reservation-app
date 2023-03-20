@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import {OfficeModel, OrganizationModel} from '../models/Models';
 import { findOrganizationById, findOrganizationByIdAndDelete, createNewOrganization, findOrganization} from '../service/Organization';
 import { findOfficeById, findOfficeByIdAndDelete,  } from '../service/Office';
 
 const createOrganization = (req: Request, res: Response, next: NextFunction)=>{
     //create a new organization
-    const organization = await createNewOrganization(req);
+    const organization = createNewOrganization(req);
     
     return organization.save().then((organization)=> res.status(201).json({organization})).catch(error => res.status(500).json({error}));
 };
