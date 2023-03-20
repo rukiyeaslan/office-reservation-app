@@ -6,7 +6,7 @@ import { findOfficeById, findOfficeByIdAndDelete,  } from '../service/Office';
 
 const createOrganization = (req: Request, res: Response, next: NextFunction)=>{
     //create a new organization
-    const organization = createNewOrganization(req);
+    const organization = await createNewOrganization(req);
     
     return organization.save().then((organization)=> res.status(201).json({organization})).catch(error => res.status(500).json({error}));
 };

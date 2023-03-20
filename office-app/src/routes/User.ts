@@ -7,8 +7,8 @@ import { createUserSchema, forgotPasswordSchema, resetPasswordSchema, verifyUser
 const router = express.Router();
 
 router.post('/register', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
-router.post('/verify/:id/:verificationCode', validateResource(verifyUserSchema), verifyUserHandler);
-router.post('/forgotPassword', validateResource(forgotPasswordSchema), forgotPasswordHandler);
-router.post('/resetPassword/:id/:passwordResetCode', validateResource(resetPasswordSchema), resetPasswordHandler);
+router.post('/verify/:id/:verificationCode', AdminAuthHandler, validateResource(verifyUserSchema), verifyUserHandler);
+router.post('/forgotPassword', AdminAuthHandler, validateResource(forgotPasswordSchema), forgotPasswordHandler);
+router.post('/resetPassword/:id/:passwordResetCode', AdminAuthHandler, validateResource(resetPasswordSchema), resetPasswordHandler);
 router.get('/me', getCurrentUserHandler);
 export = router;

@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import {DeskModel, OfficeModel, OrganizationModel} from '../models/Models';
+import { createNewOffice, findOfficeById, findOffice, findOfficeByIdAndDelete } from '../service/Office';
+import { findOrganizationById } from '../service/Organization';
+import {findDeskByIdAndDelete} from "../service/Desk";
+
 
 const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
     //create a new office
-    const office = new OfficeModel({
-        ...req.body
-    });
-    const organization = await OrganizationModel.findById(req.body.organization);
+    const office = createNewOffice(req);
+    const organization = await findOrganizationById(req.body.organization);
     organization?.offices.push(office);
     await organization?.save();
     return office.save().then((office)=> res.status(201).json({office})).catch(error => res.status(500).json({error}));
@@ -17,13 +17,13 @@ const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
 const readOffice = (req: Request, res: Response, next: NextFunction)=>{
     const officeId = req.params.officeId;
 
-    return OfficeModel.findById(officeId).then(office => office ? res.status(200).json({office}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
+    return findOfficeById(officeId).then(office => office ? res.status(200).json({office}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
 };
 
 
 const readAllOffice = (req: Request, res: Response, next: NextFunction)=>{
 
-    return OfficeModel.find()
+    return findOffice()
     .then(offices => res.status(200).json({offices}) )
     .catch(error => res.status(404).json({error}));
 };
@@ -34,12 +34,12 @@ const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
     const organizationIdAfter = req.body.organization;  // organization id of the updated desk
     let organizationIdBefore = null;              // organization id of the desk before put request is sent
     
-    return OfficeModel.findById(officeId)
+    return findOfficeById(officeId)
         .then(async office => {
             if(office){
                 organizationIdBefore = office.organization;
                 office.set(req.body);
-                const organization = await OrganizationModel.findById(organizationIdBefore);
+                const organization = await findOrganizationById(String(organizationIdBefore));
                 
                 if(!organization){
                     return res.status(404).json({message: "Not found!"});
@@ -51,7 +51,7 @@ const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
                     await organization.save();
                 }
                 else{    //change office
-                    const newOrganization = await OrganizationModel.findById(req.body.organization);
+                    const newOrganization = await findOrganizationById(req.body.organization);
                     if(!newOrganization){
                         return res.status(404).json({message: "Not found!"});
                     }
@@ -79,12 +79,12 @@ const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
 //TODO: update organization
 const deleteOffice = (req: Request, res: Response, next: NextFunction)=>{
     const officeId = req.params.officeId;
-    OfficeModel.findById(officeId)
+    findOfficeById(officeId)
         .then(office => {
             if(office){
                 for(let i=0; i< office?.desks.length; i++){
                     const deskId = office.desks[i]._id;
-                    DeskModel.findByIdAndDelete(deskId);
+                    findDeskByIdAndDelete(deskId);
                 }
             }else{
                 res.status(404).json({message: 'not found!'});
@@ -92,7 +92,7 @@ const deleteOffice = (req: Request, res: Response, next: NextFunction)=>{
             
         })
         .catch(error => res.status(404).json({message: error.message}));
-    return OfficeModel.findByIdAndDelete(officeId)
+    return findOfficeByIdAndDelete(officeId)
         .then((office) => (office ? res.status(201).json({message: 'office deleted'}) : res.status(404).json({message: 'Not found'})))
         .catch((error) => res.status(500).json({error}));
 };

@@ -1,9 +1,25 @@
-import { OrganizationModel, Organization } from "../models/Models";
+import { OfficeModel, Office } from "../models/Models";
+
+import { Request} from "express";
+
+export function createNewOffice(req: Request){
+    return new OfficeModel({
+        ...req.body
+    });;
+} 
+
+
+export function findOffice(){
+    return OfficeModel.find();
+}
+
 
 export function findOfficeById(id: string){
-    return OrganizationModel.findById(id);
+    return OfficeModel.findById(id);
 }
 
+
 export function findOfficeByIdAndDelete(id: string){
-    return OrganizationModel.findById(id);
+    return OfficeModel.findById(id);
 }
+
