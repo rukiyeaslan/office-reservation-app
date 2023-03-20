@@ -1,5 +1,5 @@
 import { prop, modelOptions, Ref, getModelForClass } from '@typegoose/typegoose';
-import mongoose from 'mongoose';
+import { User } from './User';
 
 @modelOptions({ schemaOptions: { collection: 'organizations' } })
 export class Organization {
@@ -64,6 +64,9 @@ export class Desk {
   @prop({ required: true, enum: ['available', 'reserved'] })
   status!: string;
 
+  @prop({ ref: () => User })
+  user?: string;
+
   @prop()
   reservation_start_time?: Date;
 
@@ -95,5 +98,3 @@ export class Desk {
 export const DeskModel = getModelForClass(Desk);
 export const OfficeModel = getModelForClass(Office);
 export const OrganizationModel = getModelForClass(Organization);
-
-// export default {DeskModel, OfficeModel, OrganizationModel};

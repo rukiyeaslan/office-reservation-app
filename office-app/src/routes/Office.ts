@@ -1,6 +1,6 @@
 import express from 'express';
 import controller from '../controllers/Office';
-import {SuperAdminAuthHandler} from "../controllers/User2";
+import {SuperAdminAuthHandler} from "../controllers/User";
 // import authAdmin from '../middleware/extractJWT'
 
 const router = express.Router();

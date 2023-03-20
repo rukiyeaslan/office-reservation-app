@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateSessionInput } from "../schemas/Auth";
 import { signAccessToken, signRefreshToken } from "../service/Auth";
-import { findByEmail } from "../service/User2";
+import { findByEmail } from "../service/User";
 
 export async function createSessionHandler(req: Request<{},{},CreateSessionInput>, res: Response){
     const message = "invalid email or password";

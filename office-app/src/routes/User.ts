@@ -1,12 +1,14 @@
-import express from 'express';
-import controller from '../controllers/User';
-import extractJWT from '../middleware/extractJWT';
+import express from "express";
+import { createUserHandler, forgotPasswordHandler, verifyUserHandler, resetPasswordHandler, getCurrentUserHandler } from "../controllers/User";
+import {AdminAuthHandler} from "../controllers/User";
+import validateResource from "../middleware/validateResources";
+import { createUserSchema, forgotPasswordSchema, resetPasswordSchema, verifyUserSchema } from "../schemas/User";
 
 const router = express.Router();
 
-router.get('/validate', extractJWT.extractJWT, controller.validateToken);
-router.post('/register', controller.register);
-router.post('/login', controller.login);
-router.get('/get/all', controller.getAllUsers);
-
+router.post('/register', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
+router.post('/verify/:id/:verificationCode', validateResource(verifyUserSchema), verifyUserHandler);
+router.post('/forgotPassword', validateResource(forgotPasswordSchema), forgotPasswordHandler);
+router.post('/resetPassword/:id/:passwordResetCode', validateResource(resetPasswordSchema), resetPasswordHandler);
+router.get('/me', getCurrentUserHandler);
 export = router;

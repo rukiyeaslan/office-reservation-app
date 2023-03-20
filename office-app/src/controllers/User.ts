@@ -1,9 +1,9 @@
 import {NextFunction, Request, Response} from "express";
 import { CreateUserInput, ForgotPasswordInput, VerifyUserInput, ResetPasswordInput } from "../schemas/User";
-import { createUser, findUserById, findByEmail } from "../service/User2";
+import { createUser, findUserById, findByEmail } from "../service/User";
 import sendEmail from "../utils/mailer";
 import {nanoid} from 'nanoid';
-import UserModel from "../models/User2";
+import UserModel from "../models/User";
 
 export async function createUserHandler(req: Request<{}, {}, CreateUserInput>, res: Response){
     const body = req.body;
