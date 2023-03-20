@@ -1,9 +1,9 @@
 import express from 'express';
 import controller from '../controllers/Organization';
-import {AdminAuthHandler} from "../controllers/User2";
+import {SuperAdminAuthHandler, AdminAuthHandler} from "../controllers/User2";
 const router = express.Router();
 
-router.post('/create', controller.createOrganization);
+router.post('/create', SuperAdminAuthHandler, controller.createOrganization);
 router.get('/get/:organizationId', controller.readOrganization);
 router.get('/get', AdminAuthHandler, controller.readAllOrganization);
 router.put('/update/:organizationId', controller.updateOrganization);

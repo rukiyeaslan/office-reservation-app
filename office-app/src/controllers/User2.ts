@@ -63,26 +63,23 @@ export async function AdminAuthHandler(req:Request, res: Response, next: NextFun
     
     const user = res.locals.user;
     const role = user.role;
-    console.log(user.role);
     if(user.role !== 'ADMIN'){
-        return res.send('To perfomr this operation you should be an admin');
+        return res.send('To perfom this operation you should be an admin');
     }
 
     next();
 }
 
-export async function SuperAdminAuthHandler(req:Request, res: Response){
+export async function SuperAdminAuthHandler(req:Request, res: Response, next: NextFunction){
     
     const user = res.locals.user;
     const role = user.role;
 
     if(user.role !== 'SUPER_ADMIN'){
-        return res.send('To perfomr this operation you should be an admin');
+        return res.send('To perfom this operation you should be a super admin');
     }
 
-    if(user.role === 'SUPER_ADMIN'){
-        return res.send('successful');
-    }
+    next();
 }
 
 export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordInput>, res: Response){
