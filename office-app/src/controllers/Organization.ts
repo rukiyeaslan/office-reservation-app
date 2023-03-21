@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { findOrganizationById, findOrganizationByIdAndDelete, createNewOrganization, findOrganization} from '../service/Organization';
 import { findOfficeById, findOfficeByIdAndDelete,  } from '../service/Office';
 
+
 const createOrganization = (req: Request, res: Response, next: NextFunction)=>{
     //create a new organization
     const organization = createNewOrganization(req);
@@ -47,6 +48,7 @@ const updateOrganization = (req: Request, res: Response, next: NextFunction)=>{
 
 //TODO: delete desks
 const deleteOrganization = (req: Request, res: Response, next: NextFunction)=>{
+    
     const organizationId = req.params.organizationId;
     findOrganizationById(organizationId)
         .then(organization => {

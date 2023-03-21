@@ -10,10 +10,9 @@ export async function createUserHandler(req: Request<{}, {}, CreateUserInput>, r
     try{
         console.log(body.email);
         const user = await createUser(body);
-        console.log("hi");
         await sendEmail({
             to: user.email,
-            from: 'test@example.com',
+            from: 'office_reservation_app@example.com',
             subject: "Please veify your account",
             text: `verification code ${user.verificationCode}. Id: ${user._id}`,
 

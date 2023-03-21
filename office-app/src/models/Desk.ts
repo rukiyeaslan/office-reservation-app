@@ -1,32 +1,49 @@
-// NOT USING THIS AFTER TYPEGOOSE IMPLEMENTATION
-// GOTO: ./Models.ts
+import {
+    getModelForClass,
+    modelOptions,
+    prop,
+    Severity,
+    Ref,
+  } from "@typegoose/typegoose";
 
-import mongoose, {Document, Schema} from 'mongoose';
+import { Office, Organization } from "./Models";
+export const privateFields = [
+    "__v",
+  ];
 
-export interface IDesk{
-    name: string,
-    isReserved: boolean,
-    office: string,
-    reservation_start_time: Date,
-    reservation_end_time: Date
-}
-
-export interface IDeskModel extends IDesk, Document{}
-
-const DeskSchema: Schema = new Schema(
-    {
-        name: { type: String, required: true},
-        isReserved: {type: Boolean, required: true},
-        office: {type: String, required: true, ref: 'Office'},
-        reservation_start_time: {type: Date},
-        reservation_end_time: {type :Date}
+@modelOptions({
+    schemaOptions: {
+      timestamps: true,
     },
-    {
-        //TODO: revise this line
-        versionKey: false
-        //versionKey allows to test if changes have been made
-        //So, not sure if I should disable it
-    }
-);
+    options: {
+      allowMixed: Severity.ALLOW,
+    },
+  })
+export class Desk {
+    //TODO: name unique only in tha same office
+    @prop({ required: true, unique: true })
+    name: string;
+  
+    @prop({ required: true, default: false, })
+    reserved: boolean;
 
-export default mongoose.model<IDeskModel>('Desk', DeskSchema);
+    @prop({ required: true, default: false, })
+    reservationStartTime: Date | null;
+
+    @prop({ required: true, default: false, })
+    reservationEndTime: Date | null;
+
+    @prop({ required: true, ref: () => Office})
+    office: Ref<Office>;
+  
+    @prop({ required: true, ref: () => Organization})
+    organization: Ref<Organization>;
+  
+    @prop({ default: false })
+    verified: boolean;
+  
+  }
+  
+  const DeskModel = getModelForClass(Desk);
+  
+  export default DeskModel;
