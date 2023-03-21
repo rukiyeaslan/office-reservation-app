@@ -15,10 +15,9 @@ export const createDeskSchema = object({
     })
 });
 
-export const verifyDeskSchema = object({
+export const readDeskSchema = object({
     params: object({
         id: string(),
-        verificationCode: string()
     }),
 });
 
@@ -32,24 +31,25 @@ export const forgotPasswordSchema = object({
 });
 
 
-export const resetPasswordSchema = object({
+export const updatePasswordSchema = object({
     params: object({
         id: string(),
-        passwordResetCode: string()
     }),
     body: object({
-        password: string({
-            required_error: "password is required"
-        }).min(6, "Password is too short - should be min 6 chars"),
-        passwordConfirmation: string({
-            required_error: "passwordConfirmation is required"
+        name: string({
+            required_error: "name is required"
         }),
-    }).refine((data) => data.password === data.passwordConfirmation, {
-        message: "Passwords do not match",
-        path: ["passwordConfirmation"],})
+        reserved: boolean({
+
+        }),
+        reservationStartTime: date(),
+        reservationEndTime: date(),
+        office: string(),
+        organization: string(),
+    })
 });
 
 export type CreateDeskInput = TypeOf<typeof createDeskSchema>['body'];
-export type VerifyDeskInput = TypeOf<typeof verifyDeskSchema>['params'];
+export type ReadDeskInput = TypeOf<typeof readDeskSchema>['params'];
 export type ForgotPasswordInput = TypeOf<typeof forgotPasswordSchema>['body'];
-export type ResetPasswordInput = TypeOf<typeof resetPasswordSchema>;
+export type UpdatePasswordInput = TypeOf<typeof updatePasswordSchema>;
