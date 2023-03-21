@@ -52,11 +52,11 @@ const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
                     return res.status(404).json({message: " office not found!"});
                 }
                 const deskIndex = office.desks.findIndex(officeDesk => String(officeDesk._id) === String(desk._id));
-                if(String(officeIdBefore) === String(officeIdAfter)){   // Update desk in office's desk array
+                if(String(officeIdBefore) === String(officeIdAfter)){   // Update the desk in office's desk array
                     office.desks[deskIndex] = desk;
                     await office.save();
                 }
-                else{    //change office
+                else{    //update office
                     const newOffice = await findOfficeById(req.body.office);
                     if(!newOffice){
                         return res.status(404).json({message: "new office not found!"});

@@ -3,7 +3,6 @@ import { createNewOffice, findOfficeById, findOffice, findOfficeByIdAndDelete } 
 import { findOrganizationById } from '../service/Organization';
 import {findDeskByIdAndDelete} from "../service/Desk";
 
-
 const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
     //create a new office
     const office = createNewOffice(req);
