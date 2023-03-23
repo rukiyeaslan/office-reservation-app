@@ -1,93 +1,81 @@
 import { NextFunction, Request, Response } from "express";
-import { DeskModel } from "../models/Models";
-import { findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
+import { any, string } from "zod";
+import { Desk, DeskModel } from "../models/Models";
+import OfficeModel from "../models/Office";
+import { CreateDeskInput, UpdateDeskInput, updateDeskSchema } from "../schemas/Desk";
+import { createDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
 import { findOfficeById } from "../service/Office";
 
-const createDesk = async (req: Request, res: Response, next: NextFunction)=>{
+const createDeskHandler = async (req: Request<{}, {}, CreateDeskInput>, res: Response)=>{
+    const body = req.body;
+    try {
+        const { name, organization, office, reserved, reservationStartTime, reservationEndTime } = body;
+    
+        // Find the office in the database
+        const foundOffice = await OfficeModel.findById(office);
+        if (!foundOffice) {
+          throw new Error('Office not found');
+        }
+    
+        // Set the office field to the found office's id
+        const deskInput = {
+          name,
+          reserved,
+          reservationStartTime,
+          reservationEndTime,
+          office: foundOffice._id,
+          organization
+        };
+    
+        // Create a new desk object and save it to the database
+        const newDesk = await DeskModel.create(deskInput);
+    
+        return newDesk;
+      } catch (err) {
+        console.error(err);
+        throw new Error('Error creating desk');
+      }};
 
-    //create a new desk    
-    const desk = new DeskModel({
-        name: req.body.name,
-        status: req.body.status,
-        office: req.body.office
-      });
 
-    //add desk to the corresponding office's desks array
-    const office = await findOfficeById(req.body.office);
-    office?.desks.push(desk);
-    await office?.save();
-
-    return await desk.save().then((desk)=> res.status(201).json({desk})).catch(error => res.status(500).json({error}));
-};
-
-
-const readDesk = async (req: Request, res: Response, next: NextFunction)=>{
-    const deskId = req.params.deskId;
-    console.log(deskId);
+const readDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
+    const deskId = req.params.id;
     return await findDeskById(deskId)
         .then(desk => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'}))
         .catch(error => res.status(404).json({error}));
 };
 
 
-const readAllDesk = async (req: Request, res: Response) => {
+const readAllDeskHandler = async (req: Request, res: Response) => {
     return await findDesk()
     .then(desks => res.status(200).json({desks}) )
     .catch(error => res.status(404).json({error}));
 };
 
 //TODO: update organization
-const updateDesk= async (req: Request, res: Response, next: NextFunction)=>{
-    const deskId = req.params.deskId;
-    const officeIdAfter = req.body.office;  // office id of the updated desk
-    let officeIdBefore = null;              // office id of the desk before put request is sent
-    return await findDeskById(deskId)
-        .then(async desk => {
-            if(desk){
-                officeIdBefore = desk.office;
-                desk.set(req.body);
-                //TODO: handle change in office id
-                const office = await findOfficeById(String(officeIdBefore));
-                if(!office){
-                    return res.status(404).json({message: " office not found!"});
-                }
-                const deskIndex = office.desks.findIndex(officeDesk => String(officeDesk._id) === String(desk._id));
-                if(String(officeIdBefore) === String(officeIdAfter)){   // Update the desk in office's desk array
-                    office.desks[deskIndex] = desk;
-                    await office.save();
-                }
-                else{    //update office
-                    const newOffice = await findOfficeById(req.body.office);
-                    if(!newOffice){
-                        return res.status(404).json({message: "new office not found!"});
-                    }
-                    
-                    office.desks.splice(deskIndex, 1);  //remove the desk from previous office's desk array   
-                    console.log()
-                    await office.save();
-                    newOffice.desks.push(desk);
-                    await newOffice.save();
-                }
-                
-                return desk
-                    .save()
-                    .then((desk) => res.status(201).json({desk}))
-                    .catch(error => res.status(500).json({error}));
-            }
-            else{
-                res.status(404).json({message: 'desk not found!'})
-            }
-        })
-        .catch(error => res.status(500).json({error}));
-};
+const updateDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
+
+    try{
+        const deskId = req.params.id;
+        const updatedDesk = updateDeskSchema.parse(req.body);
+
+        const desk = await DeskModel.findByIdAndUpdate(deskId, updatedDesk, { new: true });
+        res.status(200).json(desk);
+
+    }catch(error: any){
+
+        console.error(error);
+        res.status(500).json({ message: 'Error updating desk' });
+    }
+}
+
 
 //TODO: delete by chaining
-const deleteDesk = async (req: Request, res: Response, next: NextFunction)=>{
-    const deskId = req.params.deskId;
+const deleteDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
+    const deskId = req.params.id;
 
     return await findDeskByIdAndDelete(deskId)
         .then((desk) => (desk ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
         .catch((error) => res.status(500).json({error}));
 };
 
-export default { createDesk, readDesk, readAllDesk, updateDesk, deleteDesk};
+export default { createDeskHandler, readDeskHandler, readAllDeskHandler, updateDeskHandler, deleteDeskHandler }; 

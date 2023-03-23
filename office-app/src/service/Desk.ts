@@ -1,13 +1,10 @@
 import { DeskModel, Desk } from "../models/Models";
-
 import { Request} from "express";
 
-export function createNewDesk(req: Request){
-    return new DeskModel({
-        ...req.body
-    });;
-} 
 
+export function createDesk(input: Partial<Desk>){
+    return DeskModel.create(input)
+}
 
 export function findDesk(){
     return DeskModel.find();

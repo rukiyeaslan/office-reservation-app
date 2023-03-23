@@ -3,10 +3,10 @@ import controller from '../controllers/Desk';
 
 const router = express.Router();
 
-router.post('/create', controller.createDesk);
-router.get('/get/:deskId', controller.readDesk);
-router.get('/get', controller.readAllDesk);
-router.put('/update/:deskId', controller.updateDesk);
-router.delete('/delete/:deskId', controller.deleteDesk);
+router.post('/create', controller.createDeskHandler);
+router.get('/get/:deskId', controller.readDeskHandler);
+router.get('/get', controller.readAllDeskHandler);
+router.put('/update/:deskId', controller.updateDeskHandler);
+router.delete('/delete/:deskId', controller.deleteDeskHandler);
 
 export = router;

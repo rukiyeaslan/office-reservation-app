@@ -5,6 +5,7 @@ import {
     Severity,
     Ref,
   } from "@typegoose/typegoose";
+import { Schema } from "mongoose";
 
 import { Office, Organization } from "./Models";
 export const privateFields = [
@@ -22,28 +23,34 @@ export const privateFields = [
 export class Desk {
     //TODO: name unique only in tha same office
     @prop({ required: true, unique: true })
-    name: string;
+    name!: string;
   
     @prop({ required: true, default: false, })
-    reserved: boolean;
+    reserved!: boolean;
 
     @prop({ required: true, default: false, })
-    reservationStartTime: Date | null;
+    reservationStartTime?: Date | null;
 
     @prop({ required: true, default: false, })
-    reservationEndTime: Date | null;
+    reservationEndTime?: Date | null;
 
     @prop({ required: true, ref: () => Office})
-    office: Ref<Office>;
+    office!: Ref<Office>;
   
     @prop({ required: true, ref: () => Organization})
-    organization: Ref<Organization>;
-  
-    @prop({ default: false })
-    verified: boolean;
-  
-  }
-  
+    organization!: Ref<Organization>;
+
+}
+
+const deskSchema = new Schema({
+  name: { type: String, required: true },
+  organization: { type: String, required: true },
+  office: { type: String, required: true },
+  reserved: { type: Boolean, default: false },
+  reservationStartTime: { type: Date },
+  reservationEndTime: { type: Date }
+});
+
   const DeskModel = getModelForClass(Desk);
   
   export default DeskModel;

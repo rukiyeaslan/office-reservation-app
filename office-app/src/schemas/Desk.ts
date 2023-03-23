@@ -1,4 +1,6 @@
+import { Ref } from '@typegoose/typegoose';
 import {boolean, object, string, date, TypeOf} from 'zod';
+import Office from '../models/Office';
 
 export const createDeskSchema = object({
     body: object({
@@ -31,7 +33,7 @@ export const forgotPasswordSchema = object({
 });
 
 
-export const updatePasswordSchema = object({
+export const updateDeskSchema = object({
     params: object({
         id: string(),
     }),
@@ -52,4 +54,4 @@ export const updatePasswordSchema = object({
 export type CreateDeskInput = TypeOf<typeof createDeskSchema>['body'];
 export type ReadDeskInput = TypeOf<typeof readDeskSchema>['params'];
 export type ForgotPasswordInput = TypeOf<typeof forgotPasswordSchema>['body'];
-export type UpdatePasswordInput = TypeOf<typeof updatePasswordSchema>;
+export type UpdateDeskInput = TypeOf<typeof updateDeskSchema>;
