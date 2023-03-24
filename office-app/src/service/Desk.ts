@@ -1,4 +1,4 @@
-import { DeskModel, Desk } from "../models/Models";
+import DeskModel, { Desk } from "../models/Desk";
 import { Request} from "express";
 
 

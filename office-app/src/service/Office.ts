@@ -1,4 +1,4 @@
-import { OfficeModel, Office } from "../models/Models";
+import  OfficeModel, { Office } from "../models/Office";
 
 import { Request} from "express";
 

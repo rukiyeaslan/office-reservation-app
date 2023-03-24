@@ -1,11 +1,9 @@
-import { Ref } from '@typegoose/typegoose';
 import {boolean, object, string, date, TypeOf} from 'zod';
-import Office from '../models/Office';
 
 export const createDeskSchema = object({
     body: object({
         name: string({
-            required_error: "name is required"
+            required_error: "Desk name is required"
         }),
         reserved: boolean({
 

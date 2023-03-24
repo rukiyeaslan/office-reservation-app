@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { any, string } from "zod";
-import { Desk, DeskModel } from "../models/Models";
+import DeskModel from "../models/Desk";
 import OfficeModel from "../models/Office";
 import { CreateDeskInput, UpdateDeskInput, updateDeskSchema } from "../schemas/Desk";
 import { createDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
@@ -8,11 +7,12 @@ import { findOfficeById } from "../service/Office";
 
 const createDeskHandler = async (req: Request<{}, {}, CreateDeskInput>, res: Response)=>{
     const body = req.body;
+    console.log(req.body);
     try {
         const { name, organization, office, reserved, reservationStartTime, reservationEndTime } = body;
-    
+        console.log(office);
         // Find the office in the database
-        const foundOffice = await OfficeModel.findById(office);
+        const foundOffice = findOfficeById(office);
         if (!foundOffice) {
           throw new Error('Office not found');
         }
@@ -40,15 +40,15 @@ const createDeskHandler = async (req: Request<{}, {}, CreateDeskInput>, res: Res
 const readDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
     const deskId = req.params.id;
     return await findDeskById(deskId)
-        .then(desk => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'}))
-        .catch(error => res.status(404).json({error}));
+        .then((desk: any) => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'}))
+        .catch((error: any) => res.status(404).json({error}));
 };
 
 
 const readAllDeskHandler = async (req: Request, res: Response) => {
     return await findDesk()
-    .then(desks => res.status(200).json({desks}) )
-    .catch(error => res.status(404).json({error}));
+    .then((desks: any) => res.status(200).json({desks}) )
+    .catch((error: any) => res.status(404).json({error}));
 };
 
 //TODO: update organization
@@ -74,8 +74,8 @@ const deleteDeskHandler = async (req: Request, res: Response, next: NextFunction
     const deskId = req.params.id;
 
     return await findDeskByIdAndDelete(deskId)
-        .then((desk) => (desk ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
-        .catch((error) => res.status(500).json({error}));
+        .then((desk: any) => (desk ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
+        .catch((error: any) => res.status(500).json({ error }));
 };
 
 export default { createDeskHandler, readDeskHandler, readAllDeskHandler, updateDeskHandler, deleteDeskHandler }; 

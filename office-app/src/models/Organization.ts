@@ -1,20 +1,38 @@
-// NOT USING THIS AFTER TYPEGOOSE IMPLEMENTATION
-// GOTO: ./Models.ts
-import mongoose, {Document, Schema} from 'mongoose';
+import {
+    getModelForClass,
+    modelOptions,
+    prop,
+    Severity,
+    Ref,
+  } from "@typegoose/typegoose";
+import { Office } from "./Office";
 
-export interface IOrganization{
-    name: string,
+
+export const privateFields = [
+    "__v",
+  ];
+
+@modelOptions({
+    schemaOptions: {
+      timestamps: true,
+    },
+    options: {
+      allowMixed: Severity.ALLOW,
+    },
+  })
+
+export class Organization {
+    //TODO: name unique only in tha same office
+    @prop({ required: true, unique: true })
+    name: string;
+  
+    // @prop({ ref: () => Office})
+    // offices: Ref<Office>[];
+
 }
 
-export interface IOrganizationModel extends IOrganization, Document{}
 
-const OrganizationSchema: Schema = new Schema(
-    {
-        name: { type: String, required: true},
-    },
-    {
-        versionKey: false
-    }
-);
 
-export default mongoose.model<IOrganizationModel>('Organization', OrganizationSchema);
+  const OrganizationModel = getModelForClass(Organization);
+  
+  export default OrganizationModel;

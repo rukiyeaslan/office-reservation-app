@@ -6,7 +6,9 @@ import {
     Ref,
   } from "@typegoose/typegoose";
 
-import { Desk, Organization } from "./Models";
+import Organization from "./Organization";
+import Desk from "./Desk";
+
 export const privateFields = [
     "__v",
   ];
@@ -24,11 +26,11 @@ export class Office {
     @prop({ required: true, unique: true })
     name: string;
 
-    @prop({ required: true, ref: () => Desk})
-    desks: Ref<Desk>[];
+    @prop({ required: true, ref: () => typeof Desk})
+    desks: Ref<typeof Desk>[];
   
-    @prop({ required: true, ref: () => Organization})
-    organization: Ref<Organization>;
+    @prop({ required: true, ref: () =>typeof Organization})
+    organization: Ref<typeof Organization>;
   
   }
   

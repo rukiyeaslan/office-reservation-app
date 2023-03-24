@@ -1,4 +1,4 @@
-import { OrganizationModel, Organization } from "../models/Models";
+import OrganizationModel, { Organization } from "../models/Organization";
 import { Request} from "express";
 
 export function createNewOrganization(req: Request){
