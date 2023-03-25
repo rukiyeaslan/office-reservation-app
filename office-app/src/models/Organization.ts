@@ -26,13 +26,9 @@ export class Organization {
     @prop({ required: true, unique: true })
     name: string;
   
-    // @prop({ ref: () => Office})
-    // offices: Ref<Office>[];
+    @prop({ ref: () => 'Office', type: () => String})
+    offices?: Ref<Office>[];
 
 }
 
 
-
-  const OrganizationModel = getModelForClass(Organization);
-  
-  export default OrganizationModel;

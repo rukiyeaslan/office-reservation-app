@@ -6,8 +6,8 @@ import {
     Ref,
   } from "@typegoose/typegoose";
 import { Schema } from "mongoose";
-import Office from "./Office";
-import Organization from "./Organization";
+import {Office} from "./Office";
+import { Organization } from "./Organization";
 
 export const privateFields = [
     "__v",

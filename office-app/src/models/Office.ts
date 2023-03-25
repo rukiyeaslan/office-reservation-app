@@ -6,7 +6,7 @@ import {
     Ref,
   } from "@typegoose/typegoose";
 
-import Organization from "./Organization";
+import { Organization } from "./Organization";
 import Desk from "./Desk";
 
 export const privateFields = [
@@ -34,6 +34,3 @@ export class Office {
   
   }
   
-const OfficeModel = getModelForClass(Office);
-  
-export default OfficeModel;

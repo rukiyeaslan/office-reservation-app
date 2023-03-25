@@ -60,8 +60,12 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
 export async function AdminAuthHandler(req:Request, res: Response, next: NextFunction){
 
     const user = res.locals.user;
-    //console.log(user);
+    if(!user){
+        return res.send("You need to login");
+    }
+
     const role = user.role;
+    
     if(user.role !== 'ADMIN'){
         return res.send('To perfom this operation you should be an admin');
     }
@@ -72,8 +76,11 @@ export async function AdminAuthHandler(req:Request, res: Response, next: NextFun
 export async function SuperAdminAuthHandler(req:Request, res: Response, next: NextFunction){
     
     const user = res.locals.user;
+    if(!user){
+        return res.send("You need to login");
+    }
     const role = user.role;
-
+    
     if(user.role !== 'SUPER_ADMIN'){
         return res.send('To perfom this operation you should be a super admin');
     }

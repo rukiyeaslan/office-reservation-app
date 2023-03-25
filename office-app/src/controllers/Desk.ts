@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import DeskModel from "../models/Desk";
-import OfficeModel from "../models/Office";
+import {OfficeModel} from "../models/exportModels";
 import { CreateDeskInput, UpdateDeskInput, updateDeskSchema } from "../schemas/Desk";
 import { createDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
 import { findOfficeById } from "../service/Office";

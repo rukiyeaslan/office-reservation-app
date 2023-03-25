@@ -6,7 +6,7 @@ export const createOrganizationSchema = object({
         name: string({
             required_error: "Organization name is required"
         }),
-        // offices: array(createOfficeSchema),
+        offices: array(createOfficeSchema),
     })
 });
 
@@ -24,10 +24,8 @@ export const updateOrganizationSchema = object({
     }),
     body: object({
         name: string({
-            
         }),
-
-        // offices: array(createOfficeSchema),
+        offices: array(createOfficeSchema),
 
     })
 });

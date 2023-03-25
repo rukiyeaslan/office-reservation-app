@@ -1,16 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import { findOrganizationById, findOrganizationByIdAndDelete, createNewOrganization, findOrganization} from '../service/Organization';
-import OrganizationModel from '../models/Organization';
+import { findOrganizationById, findOrganizationByIdAndDelete, createNewOrganization, findOrganization, findAndUpdateOrganization} from '../service/Organization';
+import {OrganizationModel} from '../models/exportModels';
 import { findOfficeById, findOfficeByIdAndDelete,  } from '../service/Office';
-import { CreateOrganizationInput } from '../schemas/Organization';
+import { CreateOrganizationInput, UpdateOrganizationInput } from '../schemas/Organization';
 
-export async function createOrganizationHandler(req: Request<{}, {}, {}> , res: Response){
+export async function createOrganizationHandler(req: Request<{}, {}, CreateOrganizationInput> , res: Response){
     const body = req.body;
     console.log(body);
     try{
-          // Create a new desk object and save it to the database
-          //const newOrganization = await OrganizationModel.create(organizationInput);
-          
           const newOrganization = createNewOrganization(body);
           return res.status(200).send("organization sucessfully created");
         } catch (e: any) {
@@ -20,9 +17,10 @@ export async function createOrganizationHandler(req: Request<{}, {}, {}> , res: 
 
 
 export async function readOrganizationHandler (req: Request, res: Response, next: NextFunction){
-    const organizationId = req.params.organizationId;
-
-    return findOrganizationById(organizationId).then((organization: any) => organization ? res.status(200).json({organization}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
+    const id = req.params.id;
+    const organization = await findOrganizationById(id);
+    console.log(organization);
+    return findOrganizationById(id).then((organization: any) => organization ? res.status(200).json({organization}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
 };
 
 
@@ -34,24 +32,20 @@ export async function  readAllOrganizationHandler (req: Request, res: Response, 
 };
 
 
-export async function  updateOrganizationHandler(req: Request, res: Response, next: NextFunction){
-    const organizationId = req.params.organizationId;
+export async function  updateOrganizationHandler(req: Request<UpdateOrganizationInput['params'], {}, UpdateOrganizationInput['body']>, res: Response, next: NextFunction){
+    const body = req.body;
+    const id = req.params.id;
+    try{
+        const filter = {id};
+        const update = body;
+        const organization = await findAndUpdateOrganization(filter, update, {new: true});
+        organization!.save(); //check the !
+    
+        return res.send('successfully updated organization');
 
-    return findOrganizationById(organizationId)
-        .then((organization) => {
-            if(organization){
-                organization.set(req.body);
-
-                return organization
-                    .save()
-                    .then((organization: any) => res.status(201).json({organization}))
-                    .catch(error => res.status(500).json({error}));
-            }
-            else{
-                res.status(404).json({message: 'not found!'})
-            }
-        })
-        .catch((error: any) => res.status(500).json({error}));
+    }catch(e: any){
+       return res.status(500).send(e);
+    }
 };
 
 //TODO: delete desks

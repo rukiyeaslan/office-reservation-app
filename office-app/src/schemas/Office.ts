@@ -1,5 +1,6 @@
 import {boolean, object, string, date, TypeOf, array} from 'zod';
 import { createDeskSchema } from './Desk';
+import { createOrganizationSchema } from './Organization';
 
 export const createOfficeSchema = object({
     body: object({
