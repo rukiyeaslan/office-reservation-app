@@ -2,11 +2,9 @@ import { OfficeModel } from "../models/exportModels";
 
 import { Request} from "express";
 
-export function createNewOffice(req: Request){
-    return new OfficeModel({
-        ...req.body
-    });;
-} 
+export function createNewOffice(input: any){
+    return OfficeModel.create(input)
+}
 
 
 export function findOffice(){

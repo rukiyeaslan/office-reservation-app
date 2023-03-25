@@ -2,15 +2,18 @@ import { NextFunction, Request, Response } from 'express';
 import { createNewOffice, findOfficeById, findOffice, findOfficeByIdAndDelete } from '../service/Office';
 import { findOrganizationById } from '../service/Organization';
 import {findDeskByIdAndDelete} from "../service/Desk";
+import { OrganizationModel } from '../models/exportModels';
 
 const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
-    //create a new office
-    const office = createNewOffice(req);
-    const organization = await findOrganizationById(req.body.organization);
-    // organization?.offices.push(office);
-    // await organization?.save();
-    return office.save().then((office: any)=> res.status(201).json({office})).catch((error: any) => res.status(500).json({error}));
-};
+    const body = req.body;
+    console.log(body);
+    try{
+          const office = await createNewOffice(body);
+          return res.status(200).send("office sucessfully created");
+        } catch (e: any) {
+          console.error(e);
+          return res.status(500).send(e);
+}};
 
 
 const readOffice = (req: Request, res: Response, next: NextFunction)=>{
