@@ -58,8 +58,9 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
 };
 
 export async function AdminAuthHandler(req:Request, res: Response, next: NextFunction){
-    
+
     const user = res.locals.user;
+    //console.log(user);
     const role = user.role;
     if(user.role !== 'ADMIN'){
         return res.send('To perfom this operation you should be an admin');

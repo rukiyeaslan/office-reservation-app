@@ -1,11 +1,9 @@
 import OrganizationModel, { Organization } from "../models/Organization";
 import { Request} from "express";
 
-export function createNewOrganization(req: Request){
-    return new OrganizationModel({
-        ...req.body
-    });;
-} 
+export function createNewOrganization(input: Partial<Organization>){
+    return OrganizationModel.create(input)
+}
 
 
 export function findOrganization(){

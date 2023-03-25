@@ -34,6 +34,6 @@ export class Office {
   
   }
   
-  const OfficeModel = getModelForClass(Office);
+const OfficeModel = getModelForClass(Office);
   
-  export default OfficeModel;
+export default OfficeModel;
