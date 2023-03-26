@@ -1,6 +1,6 @@
+import { QueryOptions } from "mongoose";
 import { OfficeModel } from "../models/exportModels";
 
-import { Request} from "express";
 
 export function createNewOffice(input: any){
     return OfficeModel.create(input)
@@ -16,8 +16,14 @@ export function findOfficeById(id: string){
     return OfficeModel.findById(id);
 }
 
+export async function findAndUpdateOffice(
+    filter:object,  
+    update: object,
+    options: QueryOptions
+  ) {
+    return OfficeModel.findOneAndUpdate(filter, update, options);
+  }
 
 export function findOfficeByIdAndDelete(id: string){
-    return OfficeModel.findById(id);
+    return OfficeModel.findByIdAndRemove(id);
 }
-

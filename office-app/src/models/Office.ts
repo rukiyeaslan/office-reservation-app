@@ -1,5 +1,4 @@
 import {
-    getModelForClass,
     modelOptions,
     prop,
     Severity,
@@ -22,7 +21,7 @@ export const privateFields = [
     },
   })
 export class Office {
-    //TODO: name unique only in tha same organization
+    //TODO: name unique only in the same organization
     @prop({ required: true, unique: true })
     name: string;
 

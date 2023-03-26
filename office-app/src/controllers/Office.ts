@@ -1,29 +1,30 @@
 import { NextFunction, Request, Response } from 'express';
-import { createNewOffice, findOfficeById, findOffice, findOfficeByIdAndDelete } from '../service/Office';
+import { createNewOffice, findOfficeById, findOffice, findOfficeByIdAndDelete, findAndUpdateOffice } from '../service/Office';
 import { findOrganizationById } from '../service/Organization';
 import {findDeskByIdAndDelete} from "../service/Desk";
 import { OrganizationModel } from '../models/exportModels';
+import { DeleteOfficeInput, UpdateOfficeInput } from '../schemas/Office';
 
-const createOffice = async (req: Request, res: Response, next: NextFunction)=>{
+const createOfficeHandler = async (req: Request, res: Response, next: NextFunction)=>{
     const body = req.body;
     console.log(body);
     try{
+          //add newly created office to its organization's offices array
           const office = await createNewOffice(body);
           return res.status(200).send("office sucessfully created");
-        } catch (e: any) {
-          console.error(e);
-          return res.status(500).send(e);
+        } catch (err: any) {
+          return res.status(500).send(err);
 }};
 
 
-const readOffice = (req: Request, res: Response, next: NextFunction)=>{
-    const officeId = req.params.officeId;
+const readOfficeHandler = (req: Request, res: Response)=>{
+    const id = req.params.id;
+    return findOfficeById(id).then((office: any) => office ? res.status(200).json({office}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
 
-    return findOfficeById(officeId).then((office: any) => office ? res.status(200).json({office}) : res.status(404).json({message: 'not found!'})).catch((error: any) => res.status(404).json({error}));
 };
 
 
-const readAllOffice = (req: Request, res: Response, next: NextFunction)=>{
+const readAllOfficeHandler = (req: Request, res: Response, next: NextFunction)=>{
 
     return findOffice()
     .then((offices: any) => res.status(200).json({offices}) )
@@ -31,18 +32,36 @@ const readAllOffice = (req: Request, res: Response, next: NextFunction)=>{
 };
 
 
-const updateOffice= (req: Request, res: Response, next: NextFunction)=>{
-    const officeId = req.params.officeId;
-    const organizationIdAfter = req.body.organization;  // organization id of the updated desk
-    let organizationIdBefore = null;              // organization id of the desk before put request is sent
+export async function  updateOfficeHandler(req: Request<UpdateOfficeInput['params'], {}, UpdateOfficeInput['body']>, res: Response, next: NextFunction){
+    const body = req.body;
+    const id = req.params.id;
+    try{
+        const filter = {id};
+        const update = body;
+        const office = await findAndUpdateOffice(filter, update, {new: true});
+        office!.save(); //check the !
     
+        return res.send('successfully updated office');
+
+    }catch(e: any){
+       return res.status(500).send(e);
+    }
 };
 
 
 //TODO: update organization
-const deleteOffice = (req: Request, res: Response, next: NextFunction)=>{
-    const officeId = req.params.officeId;
-    };
+export async function deleteOfficeHandler(req: Request<DeleteOfficeInput, {}, {}>, res: Response){
+    const id = req.params.id;
+    console.log(id);
+    try{
+        await findOfficeByIdAndDelete(id);
+        return res.status(200).send("Office successfully deleted.");
+    }catch(err: any){
+        return res.status(500).send(err);
+    }
+};
 
 
-export default { createOffice, readOffice, readAllOffice, updateOffice, deleteOffice};
+export default { createOfficeHandler, readOfficeHandler, readAllOfficeHandler, updateOfficeHandler, deleteOfficeHandler};
+
+

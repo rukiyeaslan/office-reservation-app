@@ -32,6 +32,14 @@ export const updateOfficeSchema = object({
     })
 });
 
+
+export const deleteOfficeSchema = object({
+    params: object({
+        id: string(),
+    }),
+});
+
 export type CreateOfficeInput = TypeOf<typeof createOfficeSchema>['body'];
 export type ReadOfficeInput = TypeOf<typeof readOfficeSchema>['params'];
 export type UpdateOfficeInput = TypeOf<typeof updateOfficeSchema>;
+export type DeleteOfficeInput = TypeOf<typeof deleteOfficeSchema>['params'];

@@ -14,16 +14,17 @@ export function findOrganization(){
 
 
 export function findOrganizationById(id: string){
-    console.log( OrganizationModel.findById(id));
+    console.log(OrganizationModel.findById(id));
     return OrganizationModel.findById(id);
 }
 
 
 export async function findAndUpdateOrganization(
-    filter:object,  
+    filter: object,  
     update: object,
     options: QueryOptions
   ) {
+    console.log(filter);
     return OrganizationModel.findOneAndUpdate(filter, update, options);
   }
 

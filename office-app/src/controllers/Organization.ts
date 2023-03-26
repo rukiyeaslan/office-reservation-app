@@ -33,10 +33,12 @@ export async function  readAllOrganizationHandler (req: Request, res: Response){
 export async function  updateOrganizationHandler(req: Request<UpdateOrganizationInput['params'], {}, UpdateOrganizationInput['body']>, res: Response, next: NextFunction){
     const body = req.body;
     const id = req.params.id;
+    console.log(id);
     try{
-        const filter = {id};
+        const filter = {_id: id};
         const update = body;
         const organization = await findAndUpdateOrganization(filter, update, {new: true});
+        console.log(organization);
         organization!.save(); //check the !
     
         return res.send('successfully updated organization');
