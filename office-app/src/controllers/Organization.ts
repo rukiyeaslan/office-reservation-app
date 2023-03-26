@@ -16,15 +16,13 @@ export async function createOrganizationHandler(req: Request<{}, {}, CreateOrgan
 }};
 
 
-export async function readOrganizationHandler (req: Request, res: Response, next: NextFunction){
+export async function readOrganizationHandler (req: Request, res: Response){
     const id = req.params.id;
-    const organization = await findOrganizationById(id);
-    console.log(organization);
     return findOrganizationById(id).then((organization: any) => organization ? res.status(200).json({organization}) : res.status(404).json({message: 'not found!'})).catch(error => res.status(404).json({error}));
 };
 
 
-export async function  readAllOrganizationHandler (req: Request, res: Response, next: NextFunction){
+export async function  readAllOrganizationHandler (req: Request, res: Response){
 
     return findOrganization()
     .then((organizations: any) => res.status(200).json({organizations}) )
@@ -49,10 +47,15 @@ export async function  updateOrganizationHandler(req: Request<UpdateOrganization
 };
 
 //TODO: delete desks
-export async function deleteOrganizationHandler(req: Request, res: Response, next: NextFunction){
+export async function deleteOrganizationHandler(req: Request, res: Response){
     
-    const organizationId = req.params.organizationId;
-    
-    };
+    const id = req.params.id;
+    try{
+        await findOrganizationByIdAndDelete(id);
+        return res.status(200).send("Organization successfully deleted.");
+    }catch(err: any){
+        return res.status(500).send(err);
+    }
+};
 
 //export default { createOrganizationHandler, readOrganizationHandler, readAllOrganizationHandler, updateOrganizationHandler, deleteOrganizationHandler};
