@@ -1,12 +1,14 @@
 import express from 'express';
 import controller from '../controllers/Desk';
+import validateResource from '../middleware/validateResources';
+import { createDeskSchema, deleteDeskSchema, readDeskSchema, updateDeskSchema } from '../schemas/Desk';
 
 const router = express.Router();
 
-router.post('/create', controller.createDeskHandler);
-router.get('/get/:deskId', controller.readDeskHandler);
+router.post('/create', validateResource(createDeskSchema),controller.createDeskHandler);
+router.get('/get/:id', validateResource(readDeskSchema), controller.readDeskHandler);
 router.get('/get', controller.readAllDeskHandler);
-router.put('/update/:deskId', controller.updateDeskHandler);
-router.delete('/delete/:deskId', controller.deleteDeskHandler);
+router.post('/update/:id', validateResource(updateDeskSchema), controller.updateDeskHandler);
+router.delete('/delete/:id', validateResource(deleteDeskSchema), controller.deleteDeskHandler);
 
 export = router;

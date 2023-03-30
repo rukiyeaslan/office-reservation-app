@@ -5,13 +5,15 @@ export const createDeskSchema = object({
         name: string({
             required_error: "Desk name is required"
         }),
-        reserved: boolean({
-
+        reserved: boolean(),
+        // reservationStartTime: date() || null,
+        // reservationEndTime: date() || null,
+        office: string({
+            required_error: "Office id is required"
         }),
-        reservationStartTime: date(),
-        reservationEndTime: date(),
-        office: string(),
-        organization: string(),
+        organization: string({
+            required_error: "Organization id is required"
+        }),
     })
 });
 
@@ -22,34 +24,29 @@ export const readDeskSchema = object({
 });
 
 
-export const forgotPasswordSchema = object({
-    body: object({
-        email: string({
-            required_error: "email is required"
-        }).email("Not a valid email")
-    })
-});
-
-
 export const updateDeskSchema = object({
     params: object({
         id: string(),
     }),
     body: object({
-        name: string({
-            required_error: "name is required"
-        }),
-        reserved: boolean({
-
-        }),
-        reservationStartTime: date(),
-        reservationEndTime: date(),
+        name: string(),
+        reserved: boolean(),
+        // reservationStartTime: date(),
+        // reservationEndTime: date(),
         office: string(),
         organization: string(),
     })
 });
 
+
+export const deleteDeskSchema = object({
+    params: object({
+        id: string(),
+    }),
+});
+
+
 export type CreateDeskInput = TypeOf<typeof createDeskSchema>['body'];
 export type ReadDeskInput = TypeOf<typeof readDeskSchema>['params'];
-export type ForgotPasswordInput = TypeOf<typeof forgotPasswordSchema>['body'];
 export type UpdateDeskInput = TypeOf<typeof updateDeskSchema>;
+export type DeleteDeskInput = TypeOf<typeof deleteDeskSchema>['params'];

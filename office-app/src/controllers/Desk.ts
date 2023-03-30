@@ -1,45 +1,24 @@
 import { NextFunction, Request, Response } from "express";
 import DeskModel from "../models/Desk";
-import {OfficeModel} from "../models/exportModels";
-import { CreateDeskInput, UpdateDeskInput, updateDeskSchema } from "../schemas/Desk";
-import { createDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
-import { findOfficeById } from "../service/Office";
+import { CreateDeskInput, ReadDeskInput, UpdateDeskInput, updateDeskSchema } from "../schemas/Desk";
+import { createDesk, findAndUpdateDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
 
-const createDeskHandler = async (req: Request<{}, {}, CreateDeskInput>, res: Response)=>{
-    const body = req.body;
-    console.log(req.body);
-    try {
-        const { name, organization, office, reserved, reservationStartTime, reservationEndTime } = body;
-        console.log(office);
-        // Find the office in the database
-        const foundOffice = findOfficeById(office);
-        if (!foundOffice) {
-          throw new Error('Office not found');
-        }
-    
-        // Set the office field to the found office's id
-        const deskInput = {
-          name,
-          reserved,
-          reservationStartTime,
-          reservationEndTime,
-          office: foundOffice._id,
-          organization
-        };
-    
-        // Create a new desk object and save it to the database
-        const newDesk = await DeskModel.create(deskInput);
-    
-        return newDesk;
-      } catch (err) {
-        console.error(err);
-        throw new Error('Error creating desk');
-      }};
+//Request<{}, {}, CreateDeskInput> f'ves types of "office" are not compatible
+const createDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
+  const body = req.body;
+  console.log(body);
+  try{
+        //add newly created desk to its offices's desks array
+        const desk = await createDesk(body);
+        return res.status(200).send("desk sucessfully created");
+      } catch (err: any) {
+        return res.status(500).send(err);
+}};
 
 
-const readDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
-    const deskId = req.params.id;
-    return await findDeskById(deskId)
+const readDeskHandler = async (req: Request<ReadDeskInput, {}, {}>, res: Response, next: NextFunction)=>{
+    const id = req.params.id;
+    return await findDeskById(id)
         .then((desk: any) => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'}))
         .catch((error: any) => res.status(404).json({error}));
 };
@@ -51,22 +30,26 @@ const readAllDeskHandler = async (req: Request, res: Response) => {
     .catch((error: any) => res.status(404).json({error}));
 };
 
+
 //TODO: update organization
-const updateDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
+export async function  updateDeskHandler(req: Request<UpdateDeskInput['params'], {}, UpdateDeskInput['body']>, res: Response, next: NextFunction){
+  const body = req.body;
+  const id = req.params.id;
+  try{
+      const filter = {id};
+      const update = body;
+      const desk =  await findAndUpdateDesk(filter, update, {});
+      desk!.save(); //check the !
+  
+      return res.send('successfully updated desk');
 
-    try{
-        const deskId = req.params.id;
-        const updatedDesk = updateDeskSchema.parse(req.body);
-
-        const desk = await DeskModel.findByIdAndUpdate(deskId, updatedDesk, { new: true });
-        res.status(200).json(desk);
-
-    }catch(error: any){
-
-        console.error(error);
-        res.status(500).json({ message: 'Error updating desk' });
+  }catch(e: any){
+    if (e.code === '11000') {
+      console.log("here error");
     }
-}
+    return res.status(500).send(e);
+  }
+};
 
 
 //TODO: delete by chaining
@@ -77,5 +60,6 @@ const deleteDeskHandler = async (req: Request, res: Response, next: NextFunction
         .then((desk: any) => (desk ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
         .catch((error: any) => res.status(500).json({ error }));
 };
+
 
 export default { createDeskHandler, readDeskHandler, readAllDeskHandler, updateDeskHandler, deleteDeskHandler }; 

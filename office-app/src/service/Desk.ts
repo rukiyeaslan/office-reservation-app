@@ -1,5 +1,6 @@
 import DeskModel, { Desk } from "../models/Desk";
 import { Request} from "express";
+import { QueryOptions } from "mongoose";
 
 
 export function createDesk(input: Partial<Desk>){
@@ -17,5 +18,15 @@ export function findDeskById(id: string){
 
 
 export function findDeskByIdAndDelete(id: string){
-    return DeskModel.findById(id);
+    return DeskModel.findByIdAndRemove(id);
 }
+
+
+export async function findAndUpdateDesk(
+    filter: object,  
+    update: object,
+    options: QueryOptions
+  ) {
+    return DeskModel.findOneAndUpdate(filter, update, options);
+}
+

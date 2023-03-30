@@ -30,6 +30,13 @@ export const updateOrganizationSchema = object({
     })
 });
 
+export const deleteOrganizationSchema = object({
+    params: object({
+        id: string(),
+    }),
+});
+
 export type CreateOrganizationInput = TypeOf<typeof createOrganizationSchema>['body'];
 export type ReadOrganizationInput = TypeOf<typeof readOrganizationSchema>['params'];
 export type UpdateOrganizationInput = TypeOf<typeof updateOrganizationSchema>;
+export type DeleteOrganizationInput = TypeOf<typeof updateOrganizationSchema>['params'];

@@ -20,7 +20,7 @@ export const privateFields = [
     options: {
       allowMixed: Severity.ALLOW,
     },
-  })
+})
 export class Desk {
     //TODO: name unique only in tha same office
     @prop({ required: true, unique: true })
@@ -29,28 +29,29 @@ export class Desk {
     @prop({ required: true, default: false, })
     reserved: boolean;
 
-    @prop({  default: false, })
+    @prop({  default: null })
     reservationStartTime: Date | null;
 
-    @prop({  default: false, })
-    reservationEndTime: Date | null;
+    @prop({  default: null })
+    reservationEndTime: Date | null; 
 
     @prop({ required: true, ref: () => Office})
     office: Ref<typeof Office>;
   
     @prop({ required: true, ref: () => Organization})
     organization: Ref<typeof Organization>;
-
 }
+
 const DeskModel = getModelForClass(Desk);
+
 export default DeskModel;
 
-const deskSchema = new Schema({
-  name: { type: String, required: true },
-  organization: { type: String, required: true },
-  office: { type: String, required: true },
-  reserved: { type: Boolean, default: false },
-  reservationStartTime: { type: Date },
-  reservationEndTime: { type: Date }
-});
+// const deskSchema = new Schema({
+//   name: { type: String, required: true },
+//   organization: { type: String, required: true },
+//   office: { type: String, required: true },
+//   reserved: { type: Boolean, default: false },
+//   reservationStartTime: { type: Date },
+//   reservationEndTime: { type: Date }
+// });
 

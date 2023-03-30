@@ -49,6 +49,7 @@ export async function  updateOfficeHandler(req: Request<UpdateOfficeInput['param
 };
 
 
+
 //TODO: update organization
 export async function deleteOfficeHandler(req: Request<DeleteOfficeInput, {}, {}>, res: Response){
     const id = req.params.id;
@@ -61,7 +62,4 @@ export async function deleteOfficeHandler(req: Request<DeleteOfficeInput, {}, {}
     }
 };
 
-
 export default { createOfficeHandler, readOfficeHandler, readAllOfficeHandler, updateOfficeHandler, deleteOfficeHandler};
-
-
