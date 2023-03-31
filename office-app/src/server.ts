@@ -48,13 +48,14 @@ const StartServer = ()=>{
     });
 
     /** Routes */
-    router.use('/desks', deskRoutes);
-    router.use('/offices', officeRoutes);
-    router.use('/organizations', organizationRoutes);
-    router.use('/users', userRoutes);
-    router.use('/sessions', sessionRoutes);
+    router.use('/api/desks', deskRoutes);
+    router.use('/api/offices', officeRoutes);
+    router.use('/api/organizations', organizationRoutes);
+    router.use('/api/users', userRoutes);
+    router.use('/api/sessions', sessionRoutes);
+    
     /** Healthcheck */
-    router.get('/ping', (req, res, next)=>{
+    router.get('/api/ping', (req, res, next)=>{
         res.status(200).json({messgae: 'pong'});
     
     });
