@@ -28,7 +28,7 @@ const router = express.Router();
 *              $ref: '#/components/schemas/CreateUserResponse'
 *      409:
 *        description: Conflict
-*      400:
+*      400: 
 *        description: Bad request
 */
 router.post('/register', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
