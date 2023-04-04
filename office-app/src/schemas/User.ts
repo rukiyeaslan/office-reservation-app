@@ -1,5 +1,56 @@
 import {object, string, TypeOf} from 'zod';
 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateUserInput:
+ *      type: object
+ *      required:
+ *        - email
+ *        - firstName
+ *        - lastName
+ *        - role
+ *        - password
+ *        - passwordConfirmation
+ *      properties:
+ *        email:
+ *          type: string
+ *          default: lily.reysan@catworld.com
+ *        firstName:
+ *          type: string
+ *          default: Lily
+ *        lastName:
+ *          type: string
+ *          default: Reysan
+ *        role:
+ *          type: string
+ *          default: USER
+ *        password:
+ *          type: string
+ *          default: lily123
+ *        passwordConfirmation:
+ *          type: string
+ *          default: lily123
+ *    CreateUserResponse:
+ *      type: object
+ *      properties:
+ *        email:
+ *          type: string
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string 
+ *        role:
+ *          type: string
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ */
 export const createUserSchema = object({
     body: object({
         firstName: string({

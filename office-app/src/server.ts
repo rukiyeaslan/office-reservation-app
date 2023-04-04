@@ -8,6 +8,7 @@ import organizationRoutes from './routes/Organization';
 import sessionRoutes from './routes/Auth';
 import userRoutes from './routes/User';
 import deserializeUser from "./middleware/deserializeUser";
+import swaggerDocs from "./utils/swagger";
 
 const router = express();
 
@@ -54,7 +55,19 @@ const StartServer = ()=>{
     router.use('/api/users', userRoutes);
     router.use('/api/sessions', sessionRoutes);
     
-    /** Healthcheck */
+    swaggerDocs(router, config.server.port);
+
+  /**
+   * @openapi
+   * /api/ping:
+   *  get:
+   *     tags:
+   *     - Healthcheck
+   *     description: Responds if the app is up and running
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
     router.get('/api/ping', (req, res, next)=>{
         res.status(200).json({messgae: 'pong'});
     
