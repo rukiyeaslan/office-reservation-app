@@ -49,10 +49,156 @@ const StartServer = ()=>{
     });
 
     /** Routes */
-    router.use('/api/desks', deskRoutes);
-    router.use('/api/offices', officeRoutes);
-    router.use('/api/organizations', organizationRoutes);
+    /**
+    * @openapi
+    * '/api/users/register':
+    *  post:
+    *     tags:
+    *     - User
+    *     summary: Register a user
+    *     requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/CreateUserInput'
+    *     responses:
+    *      200:
+    *        description: Success
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/CreateUserResponse'
+    *      409:
+    *        description: Conflict
+    *      400: 
+    *        description: Bad request
+    * 
+    * /api/users/me:
+    *  get:
+    *     tags:
+    *     - User
+    *     summary: Get current user
+    *     description: Responds if the app is up and running
+    *     responses:
+    *       200:
+    *         description: App is up and running
+    */
+
     router.use('/api/users', userRoutes);
+    
+        /**
+    * @openapi
+    * '/api/desks/create':
+    *  post:
+    *     tags:
+    *     - Desk
+    *     summary: Create a desk
+    *     requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/CreateDeskInput'
+    *     responses:
+    *      200:
+    *        description: Success
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/CreateDeskResponse'
+    *      409:
+    *        description: Conflict
+    *      400: 
+    *        description: Bad request
+    * 
+    * /api/desks/get:
+    *  get:
+    *     tags:
+    *     - Desk
+    *     summary: Get all desks
+    *     description: Returns the all desks in the database
+    *     responses:
+    *       200:
+    *         description: App is up and running
+    *  
+    * '/api/desks/get/{id}':
+    *  get:
+    *     tags:
+    *     - Desk
+    *     summary: Get a single desk by the id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the desk
+    *        required: true
+    *     responses:
+    *       200:
+    *         description: Success
+    *         content:
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schema/Desk'
+    *       404:
+    *         description: Desk not found
+    */
+
+
+    router.use('/api/desks', deskRoutes);
+    
+        /**
+    * @openapi
+    * '/api/offices/create':
+    *  post:
+    *     tags:
+    *     - Office
+    *     summary: Create an office
+    *     requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/CreateOfficeInput'
+    *     responses:
+    *      200:
+    *        description: Success
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/CreateOfficeResponse'
+    *      409:
+    *        description: Conflict
+    *      400: 
+    *        description: Bad request
+    */
+    router.use('/api/offices', officeRoutes);
+    /**
+    * @openapi
+    * '/api/organizations/create':
+    *  post:
+    *     tags:
+    *     - Organization
+    *     summary: Create an organization
+    *     requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/CreateOrganizationInput'
+    *     responses:
+    *      200:
+    *        description: Success
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/CreateOrganizationResponse'
+    *      409:
+    *        description: Conflict
+    *      400: 
+    *        description: Bad request
+    */
+    router.use('/api/organizations', organizationRoutes);
+    
     router.use('/api/sessions', sessionRoutes);
     
     swaggerDocs(router, config.server.port);
