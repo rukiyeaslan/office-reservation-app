@@ -1,5 +1,27 @@
 import {object, string, TypeOf} from 'zod';
 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateSessionInput:
+ *      type: object
+ *      required:
+ *        - email
+ *        - password
+ *      properties:
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *    CreateSessionResponse:
+ *      type: object
+ *      properties:
+ *        email:
+ *          type: string
+ */
+
 export const createSessionSchema = object({
     body: object({
         email: string({

@@ -1,7 +1,56 @@
 import {boolean, object, string, date, TypeOf, array} from 'zod';
 import { createDeskSchema } from './Desk';
-import { createOrganizationSchema } from './Organization';
 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    CreateOfficeInput:
+ *      type: object
+ *      required:
+ *        - name
+ *        - desks
+ *        - organization
+ *      properties:
+ *        name:
+ *          type: string
+ *          default: office1
+ *        desks:
+ *          type: array
+ *          default: []
+ *        organization:
+ *          type: string
+ *    CreateDeskResponse:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *        desks:
+ *          type: array
+ *        organization:
+ *          type: string
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ * 
+ *    Office:
+ *      type: object
+ *      required:
+ *       - name
+ *       - desks
+ *       - organization
+ *      properties:
+ *        name:
+ *          type: string
+ *        desks:
+ *          type: array
+ *        organization:
+ *          type: string
+ */
 export const createOfficeSchema = object({
     body: object({
         name: string({

@@ -50,6 +50,19 @@ import {object, string, TypeOf} from 'zod';
  *          type: string
  *        updatedAt:
  *          type: string
+ * 
+ *    ForgotPasswordInput:
+ *      type: object
+ *      required:
+ *        - email
+ *      properties:
+ *        email:
+ *          type: string
+ *    ForgotPasswordResponse:
+ *      type: object
+ *      properties:
+ *        email:
+ *          type: string
  */
 export const createUserSchema = object({
     body: object({

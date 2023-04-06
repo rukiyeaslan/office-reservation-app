@@ -40,6 +40,43 @@ import {boolean, object, string, date, TypeOf} from 'zod';
  *        updatedAt:
  *          type: string
  * 
+ *    UpdateDeskInput:
+ *      type: object
+ *      required:
+ *        - name
+ *        - reserved
+ *        - office
+ *        - organization
+ *      properties:
+ *        name:
+ *          type: string
+ *          default: desk1
+ *        reserved:
+ *          type: boolean
+ *          default: false
+ *        office:
+ *          type: string
+ *        organization:
+ *          type: string
+ * 
+ *    UpdateDeskResponse:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *        reserved:
+ *          type: boolean
+ *        office:
+ *          type: string 
+ *        organization:
+ *          type: string
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ * 
  *    Desk:
  *      type: object
  *      required:

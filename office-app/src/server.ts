@@ -74,6 +74,65 @@ const StartServer = ()=>{
     *      400: 
     *        description: Bad request
     * 
+    * '/api/verify/{id}/{verificationCode}':
+    *  post:
+    *     tags:
+    *     - User
+    *     summary: Verify a user
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the user
+    *        required: true
+    *      - name: verificationCode
+    *        in: path
+    *        description: Verification code that is sent to the email
+    *        required: true
+    *     responses:
+    *      200:
+    *        description: User is registered
+    * 
+    * '/api/users/forgotPassword':
+    *  post:
+    *     tags:
+    *     - User
+    *     summary: Register a user
+    *     requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/ForgotPasswordInput'
+    *     responses:
+    *      200:
+    *        description: Success
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/ForgotPasswordResponse'
+    *      409:
+    *        description: Conflict
+    *      400: 
+    *        description: Bad request
+    * 
+    * '/api/resetPassword/{id}/{passwordResetCode}':
+    *  post:
+    *     tags:
+    *     - User
+    *     summary: Verify a user
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the user
+    *        required: true
+    *      - name: passwordResetCode
+    *        in: path
+    *        description: Reset code that is sent to the email
+    *        required: true
+    *     responses:
+    *      200:
+    *        description: User is registered
+    * 
     * /api/users/me:
     *  get:
     *     tags:
@@ -87,7 +146,7 @@ const StartServer = ()=>{
 
     router.use('/api/users', userRoutes);
     
-        /**
+    /**
     * @openapi
     * '/api/desks/create':
     *  post:
@@ -112,7 +171,7 @@ const StartServer = ()=>{
     *      400: 
     *        description: Bad request
     * 
-    * /api/desks/get:
+    * '/api/desks/get':
     *  get:
     *     tags:
     *     - Desk
@@ -127,6 +186,52 @@ const StartServer = ()=>{
     *     tags:
     *     - Desk
     *     summary: Get a single desk by the id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the desk
+    *        required: true
+    *     responses:
+    *       200:
+    *         description: Success
+    *         content:
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schema/Desk'
+    *       404:
+    *         description: Desk not found
+    * 
+    * '/api/desks/update/{id}':
+    *  post:
+    *     tags:
+    *     - Desk
+    *     summary: Update a desk by id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the desk
+    *        required: true
+    *     requestBody:
+    *       required: true
+    *       content:
+    *           application/json:
+    *               schema:
+    *                   $ref: '#/components/schemas/UpdateDeskInput'
+    *     responses:
+    *       200:
+    *         description: Success
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/UpdateDeskResponse'
+    *       404:
+    *         description: Desk not found
+
+    * '/api/desks/delete/{id}':
+    *  delete:
+    *     tags:
+    *     - Desk
+    *     summary: Delete a single desk by the id
     *     parameters:
     *      - name: id
     *        in: path
@@ -199,6 +304,31 @@ const StartServer = ()=>{
     */
     router.use('/api/organizations', organizationRoutes);
     
+    /**
+    * @openapi
+    * '/api/sessions/login':
+    *  post:
+    *     tags:
+    *     - Session
+    *     summary: Login to the system
+    *     requestBody:
+    *      required: true
+    *      content:
+    *        application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/CreateSessionInput'
+    *     responses:
+    *      200:
+    *        description: Success
+    *        content:
+    *          application/json:
+    *            schema:
+    *              $ref: '#/components/schemas/CreateSessionResponse'
+    *      409:
+    *        description: Conflict
+    *      400: 
+    *        description: Bad request
+    */
     router.use('/api/sessions', sessionRoutes);
     
     swaggerDocs(router, config.server.port);

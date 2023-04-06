@@ -5,6 +5,7 @@ import { createSessionSchema} from "../schemas/Auth";
 
 const router = express.Router();
 
-router.post('/', validateResource(createSessionSchema), createSessionHandler)
+
+router.post('/login', validateResource(createSessionSchema), createSessionHandler)
 
 export = router;
