@@ -1,8 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { createNewOffice, findOfficeById, findOffice, findOfficeByIdAndDelete, findAndUpdateOffice } from '../service/Office';
-import { findOrganizationById } from '../service/Organization';
-import {findDeskByIdAndDelete} from "../service/Desk";
-import { OrganizationModel } from '../models/exportModels';
 import { DeleteOfficeInput, UpdateOfficeInput } from '../schemas/Office';
 
 const createOfficeHandler = async (req: Request, res: Response, next: NextFunction)=>{
@@ -32,6 +29,7 @@ const readAllOfficeHandler = (req: Request, res: Response, next: NextFunction)=>
 };
 
 
+//TODO: relational deletions and updates
 export async function  updateOfficeHandler(req: Request<UpdateOfficeInput['params'], {}, UpdateOfficeInput['body']>, res: Response, next: NextFunction){
     const body = req.body;
     const id = req.params.id;
@@ -49,7 +47,6 @@ export async function  updateOfficeHandler(req: Request<UpdateOfficeInput['param
 };
 
 
-
 //TODO: update organization
 export async function deleteOfficeHandler(req: Request<DeleteOfficeInput, {}, {}>, res: Response){
     const id = req.params.id;
@@ -61,5 +58,6 @@ export async function deleteOfficeHandler(req: Request<DeleteOfficeInput, {}, {}
         return res.status(500).send(err);
     }
 };
+
 
 export default { createOfficeHandler, readOfficeHandler, readAllOfficeHandler, updateOfficeHandler, deleteOfficeHandler};

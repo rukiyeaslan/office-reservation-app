@@ -48,7 +48,7 @@ export async function  updateOrganizationHandler(req: Request<UpdateOrganization
     }
 };
 
-//TODO: delete desks
+//TODO: relational deletions
 export async function deleteOrganizationHandler(req: Request, res: Response){
     
     const id = req.params.id;

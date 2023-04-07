@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import DeskModel from "../models/Desk";
-import { CreateDeskInput, ReadDeskInput, UpdateDeskInput, updateDeskSchema } from "../schemas/Desk";
+import { ReadDeskInput, UpdateDeskInput } from "../schemas/Desk";
 import { createDesk, findAndUpdateDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
 
-//Request<{}, {}, CreateDeskInput> f'ves types of "office" are not compatible
+
+//Request<{}, {}, CreateDeskInput> gives types of "office" are not compatible error
 const createDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
   const body = req.body;
   console.log(body);

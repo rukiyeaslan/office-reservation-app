@@ -57,6 +57,7 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
     return res.send('could not verify the user');
 };
 
+
 export async function AdminAuthHandler(req:Request, res: Response, next: NextFunction){
 
     const user = res.locals.user;
@@ -73,6 +74,7 @@ export async function AdminAuthHandler(req:Request, res: Response, next: NextFun
     next();
 }
 
+
 export async function SuperAdminAuthHandler(req:Request, res: Response, next: NextFunction){
     
     const user = res.locals.user;
@@ -87,6 +89,7 @@ export async function SuperAdminAuthHandler(req:Request, res: Response, next: Ne
 
     next();
 }
+
 
 export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordInput>, res: Response){
     const message = "If a user with that email is registered, you will receive a password reset email";
@@ -118,6 +121,7 @@ export async function forgotPasswordHandler(req: Request<{}, {}, ForgotPasswordI
 
     return res.send(message);
 };
+
 
 export async function resetPasswordHandler(req:Request<ResetPasswordInput['params'], {}, ResetPasswordInput['body']>, res: Response){
     const body = req.body;
