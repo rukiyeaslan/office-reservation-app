@@ -28,7 +28,7 @@ npm install
 ```
 To run the app:
 ```javascript
-node run dev
+npm run dev
 ```
 
 ## Project codes on the github:
