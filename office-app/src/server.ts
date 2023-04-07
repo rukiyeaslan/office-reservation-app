@@ -171,7 +171,7 @@ const StartServer = ()=>{
     *      400: 
     *        description: Bad request
     * 
-    * '/api/desks/get':
+    * '/api/desks/getAll':
     *  get:
     *     tags:
     *     - Desk
@@ -275,6 +275,82 @@ const StartServer = ()=>{
     *        description: Conflict
     *      400: 
     *        description: Bad request
+    * 
+    * '/api/offices/getAll':
+    *  get:
+    *     tags:
+    *     - Office
+    *     summary: Get all offices
+    *     description: Returns the all offices in the database
+    *     responses:
+    *       200:
+    *         description: Success
+    *  
+    * '/api/offices/get/{id}':
+    *  get:
+    *     tags:
+    *     - Office
+    *     summary: Get a single office by the id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the office
+    *        required: true
+    *     responses:
+    *       200:
+    *         description: Success
+    *         content:
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schema/Office'
+    *       404:
+    *         description: Office not found
+    * 
+    * '/api/offices/update/{id}':
+    *  post:
+    *     tags:
+    *     - Office
+    *     summary: Update a office by id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the office
+    *        required: true
+    *     requestBody:
+    *       required: true
+    *       content:
+    *           application/json:
+    *               schema:
+    *                   $ref: '#/components/schemas/UpdateOfficeInput'
+    *     responses:
+    *       200:
+    *         description: Office is successfullt updated
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/UpdateOfficeResponse'
+    *       404:
+    *         description: Office not found
+
+    * '/api/offices/delete/{id}':
+    *  delete:
+    *     tags:
+    *     - Office
+    *     summary: Delete a single office by the id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the office
+    *        required: true
+    *     responses:
+    *       200:
+    *         description: Success! Office is deleted
+    *         content:
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schema/Office'
+    *       404:
+    *         description: Office not found
     */
     router.use('/api/offices', officeRoutes);
     /**
@@ -301,6 +377,7 @@ const StartServer = ()=>{
     *        description: Conflict
     *      400: 
     *        description: Bad request
+
     */
     router.use('/api/organizations', organizationRoutes);
     

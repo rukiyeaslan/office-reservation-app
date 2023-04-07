@@ -37,6 +37,38 @@ import { createDeskSchema } from './Desk';
  *        updatedAt:
  *          type: string
  * 
+ *    UpdateOfficeInput:
+ *      type: object
+ *      required:
+ *        - name
+ *        - reserved
+ *        - office
+ *        - organization
+ *      properties:
+ *        name:
+ *          type: string
+ *          default: desk1
+ *        desks:
+ *          type: array
+ *        organization:
+ *          type: string
+ * 
+ *    UpdateOfficeResponse:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *        desks:
+ *          type: array
+ *        organization:
+ *          type: string
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ * 
  *    Office:
  *      type: object
  *      required:

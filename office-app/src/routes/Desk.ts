@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/create', validateResource(createDeskSchema),controller.createDeskHandler);
 router.get('/get/:id', validateResource(readDeskSchema), controller.readDeskHandler);
-router.get('/get', controller.readAllDeskHandler);
+router.get('/getAll', controller.readAllDeskHandler);
 router.post('/update/:id', validateResource(updateDeskSchema), controller.updateDeskHandler);
 router.delete('/delete/:id', validateResource(deleteDeskSchema), controller.deleteDeskHandler);
 
