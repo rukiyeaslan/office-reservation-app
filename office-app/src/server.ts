@@ -9,7 +9,9 @@ import sessionRoutes from './routes/Auth';
 import userRoutes from './routes/User';
 import deserializeUser from "./middleware/deserializeUser";
 import swaggerDocs from "./utils/swagger";
+//TODO: test cron
 import './cron'
+
 const router = express();
 
 /** Connect to mongo */
