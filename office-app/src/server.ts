@@ -22,7 +22,7 @@ mongoose.connect(config.mongo.url, {retryWrites: true, w: 'majority'})
 })
 .catch((error)=>{console.log(error)});  
 
-/** Star if mongo connects*/
+/** Start if mongo connects*/
 const StartServer = ()=>{
     router.use((req, res, next)=>{
         console.log(`Incoming -> Method: [${req.method}] - Url: [${req.url}] - IP: [${req.socket.remoteAddress}]`);

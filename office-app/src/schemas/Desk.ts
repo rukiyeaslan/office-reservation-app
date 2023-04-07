@@ -119,6 +119,19 @@ export const readDeskSchema = object({
 });
 
 
+export const reserveDeskSchema = object({
+    params: object({
+        id: string(),
+    }),
+    body: object({
+        reserved: boolean(),
+        reservationStartTime: date(),
+        reservationEndTime: date(),
+
+    })
+});
+
+
 export const updateDeskSchema = object({
     params: object({
         id: string(),
@@ -145,3 +158,4 @@ export type CreateDeskInput = TypeOf<typeof createDeskSchema>['body'];
 export type ReadDeskInput = TypeOf<typeof readDeskSchema>['params'];
 export type UpdateDeskInput = TypeOf<typeof updateDeskSchema>;
 export type DeleteDeskInput = TypeOf<typeof deleteDeskSchema>['params'];
+export type ReserveDeskInput = TypeOf<typeof reserveDeskSchema>;
