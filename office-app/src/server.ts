@@ -251,7 +251,7 @@ const StartServer = ()=>{
 
     router.use('/api/desks', deskRoutes);
     
-        /**
+    /**
     * @openapi
     * '/api/offices/create':
     *  post:
@@ -377,7 +377,82 @@ const StartServer = ()=>{
     *        description: Conflict
     *      400: 
     *        description: Bad request
+    * 
+    * '/api/organization/getAll':
+    *  get:
+    *     tags:
+    *     - Organization
+    *     summary: Get all organizations
+    *     description: Returns the all organizations in the database
+    *     responses:
+    *       200:
+    *         description: Success
+    *  
+    * '/api/organizations/get/{id}':
+    *  get:
+    *     tags:
+    *     - Organization
+    *     summary: Get a single organization by the id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the organization
+    *        required: true
+    *     responses:
+    *       200:
+    *         description: Success
+    *         content:
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schema/Organization'
+    *       404:
+    *         description: Organization not found
+    * 
+    * '/api/organizations/update/{id}':
+    *  post:
+    *     tags:
+    *     - Organization
+    *     summary: Update a organization by id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the organization
+    *        required: true
+    *     requestBody:
+    *       required: true
+    *       content:
+    *           application/json:
+    *               schema:
+    *                   $ref: '#/components/schemas/UpdateOrganizationInput'
+    *     responses:
+    *       200:
+    *         description: Organization is successfullt updated
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/UpdateOrganizationResponse'
+    *       404:
+    *         description: Organization not found
 
+    * '/api/organizations/delete/{id}':
+    *  delete:
+    *     tags:
+    *     - Organization
+    *     summary: Delete a single organizationby the id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the organization
+    *        required: true
+    *     responses:
+    *       200:
+    *         description: Success! Organization is deleted
+    *         content:
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schema/Organization'
+    *       404:
+    *         description: Organization not found
     */
     router.use('/api/organizations', organizationRoutes);
     

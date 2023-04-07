@@ -41,7 +41,6 @@ import { createDeskSchema } from './Desk';
  *      type: object
  *      required:
  *        - name
- *        - reserved
  *        - office
  *        - organization
  *      properties:

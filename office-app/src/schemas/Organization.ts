@@ -7,7 +7,7 @@ import { createOfficeSchema } from './Office';
  * @openapi
  * components:
  *  schemas:
- *    CreateDeskInput:
+ *    CreaterganizationInput:
  *      type: object
  *      required:
  *        - name
@@ -19,7 +19,33 @@ import { createOfficeSchema } from './Office';
  *        offices:
  *          type: array
  *          default: []
- *    CreateDeskResponse:
+ *    CreateOrganizationResponse:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *        offices:
+ *          type: array
+ *        _id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ * 
+  *    UpdaterganizationInput:
+ *      type: object
+ *      required:
+ *        - name
+ *        - offices
+ *      properties:
+ *        name:
+ *          type: string
+ *          default: desk1
+ *        offices:
+ *          type: array
+ * 
+ *    UpdateOrganizationResponse:
  *      type: object
  *      properties:
  *        name:
