@@ -6,10 +6,10 @@ import { createOrganizationSchema, readOrganizationSchema, updateOrganizationSch
 const router = express.Router();
 
 
-router.post('/create', AdminAuthHandler, validateResource(createOrganizationSchema), createOrganizationHandler);
-router.get('/get/:id', validateResource(readOrganizationSchema), readOrganizationHandler);
-router.get('/getAll', AdminAuthHandler, readAllOrganizationHandler);
-router.post('/update/:id', AdminAuthHandler, validateResource(updateOrganizationSchema), updateOrganizationHandler );
-router.delete('/delete/:id', AdminAuthHandler, deleteOrganizationHandler);
+router.post('/create', SuperAdminAuthHandler, validateResource(createOrganizationSchema), createOrganizationHandler);
+router.get('/get/:id', SuperAdminAuthHandler, validateResource(readOrganizationSchema), readOrganizationHandler);
+router.get('/getAll', SuperAdminAuthHandler, readAllOrganizationHandler);
+router.post('/update/:id', SuperAdminAuthHandler, validateResource(updateOrganizationSchema), updateOrganizationHandler );
+router.delete('/delete/:id', SuperAdminAuthHandler, deleteOrganizationHandler);
 
 export = router;

@@ -6,10 +6,10 @@ import { deleteOfficeSchema, readOfficeSchema, updateOfficeSchema } from '../sch
 
 const router = express.Router();
 
-router.post('/create', AdminAuthHandler, controller.createOfficeHandler);
-router.get('/get/:id', validateResource(readOfficeSchema), controller.readOfficeHandler);
-router.get('/getAll', controller.readAllOfficeHandler);
-router.post('/update/:id', AdminAuthHandler, validateResource(updateOfficeSchema), controller.updateOfficeHandler);
-router.delete('/delete/:id', AdminAuthHandler, validateResource(deleteOfficeSchema), controller.deleteOfficeHandler);
+router.post('/create', SuperAdminAuthHandler, controller.createOfficeHandler);
+router.get('/get/:id', SuperAdminAuthHandler, validateResource(readOfficeSchema), controller.readOfficeHandler);
+router.get('/getAll', SuperAdminAuthHandler, controller.readAllOfficeHandler);
+router.post('/update/:id', SuperAdminAuthHandler, validateResource(updateOfficeSchema), controller.updateOfficeHandler);
+router.delete('/delete/:id', SuperAdminAuthHandler, validateResource(deleteOfficeSchema), controller.deleteOfficeHandler);
 
 export = router;
