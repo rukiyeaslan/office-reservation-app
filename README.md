@@ -31,9 +31,6 @@ To run the app:
 npm run dev
 ```
 
-## Project codes on the github:
-To access project codes click [here](https://github.com/rukiyeaslan/office-reservation-app/tree/main/office-app) 
-
 ## Access on the Internet(coming soon...)
 [Office Reservation App](http://www.google.tr/ "office-reservation-app")
 
