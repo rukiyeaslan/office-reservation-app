@@ -57,7 +57,8 @@ export async function verifyUserHandler(req: Request<VerifyUserInput>, res: Resp
     return res.send('could not verify the user');
 };
 
-
+//TODO: middleware
+//as userAuthHandler
 export async function AdminAuthHandler(req:Request, res: Response, next: NextFunction){
 
     const user = res.locals.user;
@@ -74,7 +75,7 @@ export async function AdminAuthHandler(req:Request, res: Response, next: NextFun
     next();
 }
 
-
+//TODO: middleware
 export async function SuperAdminAuthHandler(req:Request, res: Response, next: NextFunction){
     
     const user = res.locals.user;

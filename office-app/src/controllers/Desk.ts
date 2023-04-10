@@ -54,6 +54,7 @@ export async function  updateDeskHandler(req: Request<UpdateDeskInput['params'],
 export async function  reserveDeskHandler(req: Request<ReserveDeskInput['params'], {}, ReserveDeskInput['body']>, res: Response, next: NextFunction){
   const body = req.body;
   const id = req.params.id;
+  //slot info endpoint
   try{
       const filter = {id};
       const update = body;

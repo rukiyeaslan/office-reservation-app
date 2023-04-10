@@ -6,7 +6,6 @@ import { createUserSchema, forgotPasswordSchema, resetPasswordSchema, verifyUser
 
 const router = express.Router();
 
-
 router.post('/register', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
 router.post('/verify/:id/:verificationCode', AdminAuthHandler, validateResource(verifyUserSchema), verifyUserHandler);
 router.post('/forgotPassword', AdminAuthHandler, validateResource(forgotPasswordSchema), forgotPasswordHandler);
