@@ -1,4 +1,4 @@
-//to prevent circular dependencies created a seperate file for exports
+//to prevent circular dependencies, created a seperate file for exports
 
 import { getModelForClass } from "@typegoose/typegoose";
 import {Office} from "./Office";

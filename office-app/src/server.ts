@@ -203,6 +203,32 @@ const StartServer = ()=>{
     *       404:
     *         description: Desk not found
     * 
+    * '/api/desks/reserve/{id}':
+    *  post:
+    *     tags:
+    *     - Desk
+    *     summary: Reserve a desk by id
+    *     parameters:
+    *      - name: id
+    *        in: path
+    *        description: The id of the desk
+    *        required: true
+    *     requestBody:
+    *       required: true
+    *       content:
+    *           application/json:
+    *               schema:
+    *                   $ref: '#/components/schemas/ReserveDeskInput'
+    *     responses:
+    *       200:
+    *         description: Success
+    *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/ReserveDeskResponse'
+    *       404:
+    *         description: Desk not found
+    * 
     * '/api/desks/update/{id}':
     *  post:
     *     tags:

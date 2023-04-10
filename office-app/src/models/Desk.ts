@@ -22,7 +22,7 @@ export const privateFields = [
     },
 })
 export class Desk {
-    //TODO: name unique only in tha same office
+    //TODO: name unique only in the same office
     @prop({ required: true, unique: true })
     name: string;
   

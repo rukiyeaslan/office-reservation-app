@@ -23,8 +23,6 @@ export const privateFields = [
   })
 
 export class Organization {
-    
-    //TODO: name unique only in tha same office
     @prop({ required: true, unique: true })
     name: string;
   
