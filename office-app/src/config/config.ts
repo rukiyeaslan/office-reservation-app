@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log(process.env.MONGO_USERNAME);
 const MONGO_USERNAME = process.env.MONGO_USERNAME || ''; //lily
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD || ''; //lily2
 const MONGO_URL = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@officeapp.hqnmikq.mongodb.net/office?retryWrites=true&w=majority`

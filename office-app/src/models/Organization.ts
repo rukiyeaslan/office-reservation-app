@@ -1,13 +1,10 @@
 import {
-    getModelForClass,
     modelOptions,
     prop,
     Severity,
     Ref,
   } from "@typegoose/typegoose";
-import mongoose from "mongoose";
 import { Office } from "./Office";
-
 
 export const privateFields = [
     "__v",

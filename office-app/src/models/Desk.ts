@@ -46,12 +46,4 @@ const DeskModel = getModelForClass(Desk);
 
 export default DeskModel;
 
-// const deskSchema = new Schema({
-//   name: { type: String, required: true },
-//   organization: { type: String, required: true },
-//   office: { type: String, required: true },
-//   reserved: { type: Boolean, default: false },
-//   reservationStartTime: { type: Date },
-//   reservationEndTime: { type: Date }
-// });
 
