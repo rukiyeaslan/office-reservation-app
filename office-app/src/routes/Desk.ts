@@ -5,7 +5,6 @@ import { createDeskSchema, deleteDeskSchema, readDeskSchema, reserveDeskSchema, 
 
 const router = express.Router();
 
-
     /**
     * @openapi
     * '/api/desks':
@@ -30,7 +29,11 @@ const router = express.Router();
     *        description: Conflict
     *      400: 
     *        description: Bad request
-    * 
+    */ 
+    router.post('/api/desks/', validateResource(createDeskSchema),controller.createDeskHandler);
+
+    /**
+    * @openapi
     * '/api/desks':
     *  get:
     *     tags:
@@ -40,7 +43,11 @@ const router = express.Router();
     *     responses:
     *       200:
     *         description: App is up and running
-    *  
+    */
+    router.get('/api/desks/', controller.readAllDeskHandler);    
+
+    /**
+    * @openapi  
     * '/api/desks/{id}':
     *  get:
     *     tags:
@@ -60,7 +67,11 @@ const router = express.Router();
     *              $ref: '#/components/schema/Desk'
     *       404:
     *         description: Desk not found
-    * 
+    */
+    router.get('/api/desks/:id', validateResource(readDeskSchema), controller.readDeskHandler);
+
+    /**
+    * @openapi
     * '/api/desks/reserve/{id}':
     *  post:
     *     tags:
@@ -86,7 +97,11 @@ const router = express.Router();
     *               $ref: '#/components/schemas/ReserveDeskResponse'
     *       404:
     *         description: Desk not found
-    * 
+    */
+    router.post('/reserve/:id', validateResource(reserveDeskSchema), controller.reserveDeskHandler);
+
+    /**
+    * @openapi
     * '/api/desks/{id}':
     *  put:
     *     tags:
@@ -112,7 +127,11 @@ const router = express.Router();
     *               $ref: '#/components/schemas/UpdateDeskResponse'
     *       404:
     *         description: Desk not found
+    */
+    router.put('/api/desks/:id', validateResource(updateDeskSchema), controller.updateDeskHandler);
 
+    /**
+    * @openapi
     * '/api/desks/{id}':
     *  delete:
     *     tags:
@@ -133,13 +152,6 @@ const router = express.Router();
     *       404:
     *         description: Desk not found
     */
+    router.delete('/api/desks/:id', validateResource(deleteDeskSchema), controller.deleteDeskHandler);
 
-router.post('/api/desks/', validateResource(createDeskSchema),controller.createDeskHandler);
-router.get('/api/desks/:id', validateResource(readDeskSchema), controller.readDeskHandler);
-router.get('/api/desks/', controller.readAllDeskHandler);
-router.put('/api/desks/:id', validateResource(updateDeskSchema), controller.updateDeskHandler);
-router.post('/reserve/:id', validateResource(reserveDeskSchema), controller.reserveDeskHandler);
-router.delete('/api/desks/:id', validateResource(deleteDeskSchema), controller.deleteDeskHandler);
-
-// module.exports = router;
 export default router;

@@ -30,7 +30,11 @@ const router = express.Router();
     *        description: Conflict
     *      400: 
     *        description: Bad request
-    * 
+    */ 
+    router.post('/api/users', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
+
+    /**
+    * @openapi
     * '/api/{id}/{verificationCode}':
     *  post:
     *     tags:
@@ -48,7 +52,11 @@ const router = express.Router();
     *     responses:
     *      200:
     *        description: User is registered
-    * 
+    */
+    router.post('/api/users/:id/:verificationCode', AdminAuthHandler, validateResource(verifyUserSchema), verifyUserHandler);
+
+    /**
+    * @openapi
     * '/api/users/forgotPassword':
     *  post:
     *     tags:
@@ -71,7 +79,11 @@ const router = express.Router();
     *        description: Conflict
     *      400: 
     *        description: Bad request
-    * 
+    */
+    router.post('/api/users/forgotPassword', AdminAuthHandler, validateResource(forgotPasswordSchema), forgotPasswordHandler);
+
+    /**
+    * @openapi
     * '/api/{id}/{passwordResetCode}':
     *  post:
     *     tags:
@@ -89,7 +101,11 @@ const router = express.Router();
     *     responses:
     *      200:
     *        description: User is registered
-    * 
+    */
+    router.post('/api/users/:id/:passwordResetCode', AdminAuthHandler, validateResource(resetPasswordSchema), resetPasswordHandler);
+
+    /**
+    * @openapi
     * /api/users/me:
     *  get:
     *     tags:
@@ -100,10 +116,6 @@ const router = express.Router();
     *       200:
     *         description: App is up and running
     */
-router.post('/api/users', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
-router.post('/api/users/:id/:verificationCode', AdminAuthHandler, validateResource(verifyUserSchema), verifyUserHandler);
-router.post('/api/users/forgotPassword', AdminAuthHandler, validateResource(forgotPasswordSchema), forgotPasswordHandler);
-router.post('/api/users/:id/:passwordResetCode', AdminAuthHandler, validateResource(resetPasswordSchema), resetPasswordHandler);
 router.get('/api/users/me', getCurrentUserHandler);
 
 export default router;

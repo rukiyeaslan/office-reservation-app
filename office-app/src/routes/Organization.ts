@@ -31,8 +31,13 @@ const router = express.Router();
     *        description: Conflict
     *      400: 
     *        description: Bad request
-    * 
-    * '/api/organization':
+    */
+
+    router.post('/api/organizations', SuperAdminAuthHandler, validateResource(createOrganizationSchema), createOrganizationHandler);
+
+    /**
+    * @openapi 
+    * '/api/organizations':
     *  get:
     *     tags:
     *     - Organization
@@ -41,7 +46,11 @@ const router = express.Router();
     *     responses:
     *       200:
     *         description: Success
-    *  
+    */
+    router.get('/api/organizations', SuperAdminAuthHandler, readAllOrganizationHandler);
+
+    /**
+    * @openapi  
     * '/api/organizations/{id}':
     *  get:
     *     tags:
@@ -61,7 +70,11 @@ const router = express.Router();
     *              $ref: '#/components/schema/Organization'
     *       404:
     *         description: Organization not found
-    * 
+    */
+    router.get('/api/organizations/:id', SuperAdminAuthHandler, validateResource(readOrganizationSchema), readOrganizationHandler);
+
+    /**
+    * @openapi
     * '/api/organizations/{id}':
     *  put:
     *     tags:
@@ -87,7 +100,11 @@ const router = express.Router();
     *               $ref: '#/components/schemas/UpdateOrganizationResponse'
     *       404:
     *         description: Organization not found
+    */
+    router.put('/api/organizations/:id', SuperAdminAuthHandler, validateResource(updateOrganizationSchema), updateOrganizationHandler );
 
+    /**
+    * @openapi
     * '/api/organizations/{id}':
     *  delete:
     *     tags:
@@ -108,10 +125,6 @@ const router = express.Router();
     *       404:
     *         description: Organization not found
     */
-router.post('/api/organizations', SuperAdminAuthHandler, validateResource(createOrganizationSchema), createOrganizationHandler);
-router.get('/api/organizations/:id', SuperAdminAuthHandler, validateResource(readOrganizationSchema), readOrganizationHandler);
-router.get('/api/organizations', SuperAdminAuthHandler, readAllOrganizationHandler);
-router.put('/api/organizations/:id', SuperAdminAuthHandler, validateResource(updateOrganizationSchema), updateOrganizationHandler );
 router.delete('/api/organizations/:id', SuperAdminAuthHandler, deleteOrganizationHandler);
 
 export default router

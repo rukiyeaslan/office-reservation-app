@@ -30,7 +30,11 @@ const router = express.Router();
     *        description: Conflict
     *      400: 
     *        description: Bad request
-    * 
+    */
+    router.post('/api/offices', SuperAdminAuthHandler, controller.createOfficeHandler);
+  
+    /**
+    * @openapi
     * '/api/offices':
     *  get:
     *     tags:
@@ -40,7 +44,11 @@ const router = express.Router();
     *     responses:
     *       200:
     *         description: Success
-    *  
+    */
+    router.get('/api/offices', SuperAdminAuthHandler, controller.readAllOfficeHandler);
+
+    /**
+    * @openapi
     * '/api/offices/{id}':
     *  get:
     *     tags:
@@ -60,7 +68,11 @@ const router = express.Router();
     *              $ref: '#/components/schema/Office'
     *       404:
     *         description: Office not found
-    * 
+    */
+    router.get('/api/offices/:id', SuperAdminAuthHandler, validateResource(readOfficeSchema), controller.readOfficeHandler);
+
+    /**
+    * @openapi
     * '/api/offices/{id}':
     *  put:
     *     tags:
@@ -86,7 +98,11 @@ const router = express.Router();
     *               $ref: '#/components/schemas/UpdateOfficeResponse'
     *       404:
     *         description: Office not found
+    */
+    router.put('/api/offices/:id', SuperAdminAuthHandler, validateResource(updateOfficeSchema), controller.updateOfficeHandler);
 
+    /**
+    * @openapi
     * '/api/offices/{id}':
     *  delete:
     *     tags:
@@ -107,10 +123,6 @@ const router = express.Router();
     *       404:
     *         description: Office not found
     */
-router.post('/api/offices', SuperAdminAuthHandler, controller.createOfficeHandler);
-router.get('/api/offices/:id', SuperAdminAuthHandler, validateResource(readOfficeSchema), controller.readOfficeHandler);
-router.get('/api/offices', SuperAdminAuthHandler, controller.readAllOfficeHandler);
-router.put('/api/offices/:id', SuperAdminAuthHandler, validateResource(updateOfficeSchema), controller.updateOfficeHandler);
 router.delete('/api/offices/:id', SuperAdminAuthHandler, validateResource(deleteOfficeSchema), controller.deleteOfficeHandler);
 
 export default router;

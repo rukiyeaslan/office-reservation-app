@@ -6,31 +6,32 @@ import {version} from '../../package.json'
 const options: swaggerJsdoc.Options = {
     definition: {
         openapi: "3.0.0",
-        info: {
-            title: 'REST API Docs',
+        info:{
+            title: 'Office Reservation API Docs',
             version
         },
-        components: {
-            securityScemas: {
-                bearerAuth: {
-                    type: 'http',
-                    scheme : 'bearer',
-                    bearerFormat: 'JWT'
+        components:{
+            securitySchemes:{
+                bearerAuth:{
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",   
                 },
             },
         },
-        security: [
+        security:[
             {
                 bearerAuth: [],
-            }
-        ]
+            },
+        ],
     },
-    apis: [ './src/server.ts', './src/schemas/*.ts' ]
+    apis: [ "./src/routes/*.ts", "./src/schemas/*.ts" ]
+    // apis: ["./src/routes/*.routes.ts", "./src/schemas/*.schema.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
-function swaggerDocs(app: Express, port: number){
+export function swaggerDocs(app: Express, port: number){
     //swagger page
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
@@ -42,4 +43,4 @@ function swaggerDocs(app: Express, port: number){
     console.log(`Docs available at http://localhost:${port}/docs`);
 }
 
-export default swaggerDocs;
+// export default swaggerDocs;
