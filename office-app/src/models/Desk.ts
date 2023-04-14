@@ -5,7 +5,6 @@ import {
     Severity,
     Ref,
   } from "@typegoose/typegoose";
-import { Schema } from "mongoose";
 import {Office} from "./Office";
 import { Organization } from "./Organization";
 
@@ -34,7 +33,7 @@ export class Desk {
 
     @prop({  default: null })
     reservationEndTime: Date | null; 
-
+//TODO: ref 
     @prop({ required: true, ref: () => Office})
     office: Ref<typeof Office>;
   

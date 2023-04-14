@@ -9,7 +9,6 @@ import express from "express";
 const router = express.Router();
 
 router.use(officeRoutes);
-
 router.use(deskRoutes);
 router.use(organizationRoutes);
 router.use(sessionRoutes);
