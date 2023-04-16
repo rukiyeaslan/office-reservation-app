@@ -15,9 +15,9 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *        name:
  *          type: string
  *          default: desk1
- *        reserved:
- *          type: boolean
- *          default: false
+ *        availableSlots:
+ *          type: array
+ *          default: ['1', '2', '3', '4', '5','6','7', '8']
  *        office:
  *          type: string
  *        organization:
@@ -44,7 +44,7 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *      type: object
  *      required:
  *        - name
- *        - reserved
+ *        - availableSlots
  *        - office
  *        - organization
  *      properties:
@@ -53,7 +53,7 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *          default: desk1
  *        availableSlots:
  *          type: array
- *          default: false
+ *          default: ['1', '2', '3', '4', '5','6','7', '8']
  *        office:
  *          type: string
  *        organization:

@@ -18,7 +18,7 @@ const createReservationHandler = async (req: Request, res: Response, next: NextF
   }};
 
 //TODO: check the file, should this function be in desk.ts or reservation.ts
-export async function getAvailableSlotsHandler(req: Request<GetAvailableSlotsInput, {}, {}>, res: Response, next: NextFunction){
+async function getAvailableSlotsHandler(req: Request<GetAvailableSlotsInput, {}, {}>, res: Response, next: NextFunction){
     const id = req.params.id;
     try{
       const desk = await findDeskById(id);
@@ -34,7 +34,7 @@ export async function getAvailableSlotsHandler(req: Request<GetAvailableSlotsInp
     }
 };
 
-export async function  updateReservationHandler(req: Request<UpdateReservationInput['params'], {}, UpdateReservationInput['body']>, res: Response, next: NextFunction){
+async function updateReservationHandler(req: Request<UpdateReservationInput['params'], {}, UpdateReservationInput['body']>, res: Response, next: NextFunction){
     const body = req.body;
     const id = req.params.id;
     try{
@@ -53,6 +53,6 @@ export async function  updateReservationHandler(req: Request<UpdateReservationIn
     }
   };
 
-export default { createReservationHandler, getAvailableSlotsHandler}; 
+export default { createReservationHandler, getAvailableSlotsHandler, updateReservationHandler}; 
 
   

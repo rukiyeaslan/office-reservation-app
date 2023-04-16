@@ -25,11 +25,8 @@ export class Desk {
     @prop({ required: true, unique: true })
     name: string;
   
-    // @prop({ required: true, default: false, })
-    // reserved: boolean;
-
     // 1: 9-10, 2: 10-11, 3: 11-12, 4: 12- 13, 5: 13-14, 6: 14-15, 7: 15-16, 8: 16-17, 
-    @prop({required: true, default: ['1', '2', '3', '4', '5','6','7', '8', ]})
+    @prop({required: true, default: ['1', '2', '3', '4', '5','6','7', '8' ]})
     availableSlots: string[];
 
     @prop({  default: null })
