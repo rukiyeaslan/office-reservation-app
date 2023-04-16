@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ReadDeskInput, ReserveDeskInput, UpdateDeskInput } from "../schemas/Desk";
+import { ReadDeskInput, UpdateDeskInput } from "../schemas/Desk";
 import { createDesk, findAndUpdateDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
 
 
@@ -8,7 +8,6 @@ const createDeskHandler = async (req: Request, res: Response, next: NextFunction
   const body = req.body;
   console.log(body);
   try{
-        //add newly created desk to its offices's desks array
         const desk = await createDesk(body);
         return res.status(200).send("desk sucessfully created");
       } catch (err: any) {
@@ -51,28 +50,7 @@ export async function  updateDeskHandler(req: Request<UpdateDeskInput['params'],
   }
 };
 
-export async function  reserveDeskHandler(req: Request<ReserveDeskInput['params'], {}, ReserveDeskInput['body']>, res: Response, next: NextFunction){
-  const body = req.body;
-  const id = req.params.id;
-  //slot info endpoint
-  try{
-      const filter = {id};
-      const update = body;
-      const desk =  await findAndUpdateDesk(filter, update, {});
-      desk!.save();         //TODO: check the !
-  
-      return res.send('successfully updated desk');
 
-  }catch(e: any){
-    if (e.code === '11000') {
-      console.log("unique name error");  //TODO: check this error again
-    }
-    return res.status(500).send(e);
-  }
-};
-
-
-//TODO: delete by chaining
 const deleteDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
     const deskId = req.params.id;
 
@@ -82,4 +60,4 @@ const deleteDeskHandler = async (req: Request, res: Response, next: NextFunction
 };
 
 
-export default { createDeskHandler, readDeskHandler, readAllDeskHandler, updateDeskHandler, reserveDeskHandler, deleteDeskHandler }; 
+export default { createDeskHandler, readDeskHandler, readAllDeskHandler, updateDeskHandler, deleteDeskHandler }; 

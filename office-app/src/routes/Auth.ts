@@ -7,7 +7,7 @@ const router = express.Router();
 
     /**
     * @openapi
-    * '/api/sessions':
+    * '/api/sessions'
     *  post:
     *     tags:
     *     - Session

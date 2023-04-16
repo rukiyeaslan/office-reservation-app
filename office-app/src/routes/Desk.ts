@@ -1,7 +1,7 @@
 import express from 'express';
 import controller from '../controllers/Desk';
 import validateResource from '../middleware/validateResources';
-import { createDeskSchema, deleteDeskSchema, readDeskSchema, reserveDeskSchema, updateDeskSchema } from '../schemas/Desk';
+import { createDeskSchema, deleteDeskSchema, readDeskSchema, updateDeskSchema } from '../schemas/Desk';
 
 const router = express.Router();
 
@@ -70,35 +70,7 @@ const router = express.Router();
     */
     router.get('/api/desks/:id', validateResource(readDeskSchema), controller.readDeskHandler);
 
-    /**
-    * @openapi
-    * '/api/desks/reserve/{id}':
-    *  post:
-    *     tags:
-    *     - Desk
-    *     summary: Reserve a desk by id
-    *     parameters:
-    *      - name: id
-    *        in: path
-    *        description: The id of the desk
-    *        required: true
-    *     requestBody:
-    *       required: true
-    *       content:
-    *           application/json:
-    *               schema:
-    *                   $ref: '#/components/schemas/ReserveDeskInput'
-    *     responses:
-    *       200:
-    *         description: Success
-    *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/ReserveDeskResponse'
-    *       404:
-    *         description: Desk not found
-    */
-    router.post('/reserve/:id', validateResource(reserveDeskSchema), controller.reserveDeskHandler);
+
 
     /**
     * @openapi

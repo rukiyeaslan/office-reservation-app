@@ -1,8 +1,11 @@
 import { prop, getModelForClass } from '@typegoose/typegoose';
 
-class Reservation {
+export class Reservation {
   @prop({ required: true })
   userId!: string;
+
+  @prop({ required: true })
+  deskId!: string;
 
   @prop({ required: true })
   officeId!: string;
@@ -19,4 +22,4 @@ class Reservation {
 
 const ReservationModel = getModelForClass(Reservation);
 
-export { Reservation, ReservationModel };
+export default ReservationModel;
