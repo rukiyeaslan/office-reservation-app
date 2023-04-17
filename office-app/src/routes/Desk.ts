@@ -1,6 +1,7 @@
 import express from 'express';
 import controller from '../controllers/Desk';
 import validateResource from '../middleware/validateResources';
+import { UserAuthHandler } from '../middleware/roleBasedAuthentication';
 import { createDeskSchema, deleteDeskSchema, readDeskSchema, updateDeskSchema } from '../schemas/Desk';
 
 const router = express.Router();
@@ -30,7 +31,7 @@ const router = express.Router();
     *      400: 
     *        description: Bad request
     */ 
-    router.post('/api/desks/', validateResource(createDeskSchema),controller.createDeskHandler);
+    router.post('/api/desks/', UserAuthHandler('USER'), validateResource(createDeskSchema),controller.createDeskHandler);
 
     /**
     * @openapi
@@ -44,7 +45,7 @@ const router = express.Router();
     *       200:
     *         description: App is up and running
     */
-    router.get('/api/desks/', controller.readAllDeskHandler);    
+    router.get('/api/desks/', UserAuthHandler('USER'), controller.readAllDeskHandler);    
 
     /**
     * @openapi  
@@ -68,7 +69,7 @@ const router = express.Router();
     *       404:
     *         description: Desk not found
     */
-    router.get('/api/desks/:id', validateResource(readDeskSchema), controller.readDeskHandler);
+    router.get('/api/desks/:id', UserAuthHandler('USER'), validateResource(readDeskSchema), controller.readDeskHandler);
 
 
 
@@ -100,7 +101,7 @@ const router = express.Router();
     *       404:
     *         description: Desk not found
     */
-    router.put('/api/desks/:id', validateResource(updateDeskSchema), controller.updateDeskHandler);
+    router.put('/api/desks/:id', UserAuthHandler('USER'), validateResource(updateDeskSchema), controller.updateDeskHandler);
 
     /**
     * @openapi
@@ -124,6 +125,6 @@ const router = express.Router();
     *       404:
     *         description: Desk not found
     */
-    router.delete('/api/desks/:id', validateResource(deleteDeskSchema), controller.deleteDeskHandler);
+    router.delete('/api/desks/:id', UserAuthHandler('USER'), validateResource(deleteDeskSchema), controller.deleteDeskHandler);
 
 export default router;

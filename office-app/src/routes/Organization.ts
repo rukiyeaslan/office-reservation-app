@@ -1,6 +1,6 @@
 import express from 'express';
 import {createOrganizationHandler, readOrganizationHandler, readAllOrganizationHandler, updateOrganizationHandler, deleteOrganizationHandler } from '../controllers/Organization';
-import {SuperAdminAuthHandler, AdminAuthHandler} from "../controllers/User";
+import {UserAuthHandler} from "../middleware/roleBasedAuthentication";
 import validateResource from '../middleware/validateResources';
 import { createOrganizationSchema, readOrganizationSchema, updateOrganizationSchema } from '../schemas/Organization';
 
@@ -33,7 +33,7 @@ const router = express.Router();
     *        description: Bad request
     */
 
-    router.post('/api/organizations', SuperAdminAuthHandler, validateResource(createOrganizationSchema), createOrganizationHandler);
+    router.post('/api/organizations', UserAuthHandler('SUPER_ADMIN'), validateResource(createOrganizationSchema), createOrganizationHandler);
 
     /**
     * @openapi 
@@ -47,7 +47,7 @@ const router = express.Router();
     *       200:
     *         description: Success
     */
-    router.get('/api/organizations', SuperAdminAuthHandler, readAllOrganizationHandler);
+    router.get('/api/organizations', UserAuthHandler('SUPER_ADMIN'), readAllOrganizationHandler);
 
     /**
     * @openapi  
@@ -71,7 +71,7 @@ const router = express.Router();
     *       404:
     *         description: Organization not found
     */
-    router.get('/api/organizations/:id', SuperAdminAuthHandler, validateResource(readOrganizationSchema), readOrganizationHandler);
+    router.get('/api/organizations/:id', UserAuthHandler('SUPER_ADMIN'), validateResource(readOrganizationSchema), readOrganizationHandler);
 
     /**
     * @openapi
@@ -101,7 +101,7 @@ const router = express.Router();
     *       404:
     *         description: Organization not found
     */
-    router.put('/api/organizations/:id', SuperAdminAuthHandler, validateResource(updateOrganizationSchema), updateOrganizationHandler );
+    router.put('/api/organizations/:id', UserAuthHandler('SUPER_ADMIN'), validateResource(updateOrganizationSchema), updateOrganizationHandler );
 
     /**
     * @openapi
@@ -125,6 +125,6 @@ const router = express.Router();
     *       404:
     *         description: Organization not found
     */
-router.delete('/api/organizations/:id', SuperAdminAuthHandler, deleteOrganizationHandler);
+router.delete('/api/organizations/:id', UserAuthHandler('SUPER_ADMIN'), deleteOrganizationHandler);
 
 export default router

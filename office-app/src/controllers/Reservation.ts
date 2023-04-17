@@ -25,6 +25,7 @@ async function getAvailableSlotsHandler(req: Request<GetAvailableSlotsInput, {},
       
       if(desk){
         const availableSlots = desk?.availableSlots;
+        console.log(availableSlots);
         return res.status(200).json(availableSlots);
       }
       return res.status(404).send("Couldn't find the desk"!);

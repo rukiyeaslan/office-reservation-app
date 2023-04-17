@@ -1,6 +1,6 @@
 import express from 'express';
 import controller from '../controllers/Office';
-import {AdminAuthHandler, SuperAdminAuthHandler} from "../controllers/User";
+import {UserAuthHandler} from "../middleware/roleBasedAuthentication";
 import validateResource from '../middleware/validateResources';
 import { deleteOfficeSchema, readOfficeSchema, updateOfficeSchema } from '../schemas/Office';
 
@@ -31,7 +31,7 @@ const router = express.Router();
     *      400: 
     *        description: Bad request
     */
-    router.post('/api/offices', SuperAdminAuthHandler, controller.createOfficeHandler);
+    router.post('/api/offices', UserAuthHandler('SUPER_ADMIN'), controller.createOfficeHandler);
   
     /**
     * @openapi
@@ -45,7 +45,7 @@ const router = express.Router();
     *       200:
     *         description: Success
     */
-    router.get('/api/offices', SuperAdminAuthHandler, controller.readAllOfficeHandler);
+    router.get('/api/offices', UserAuthHandler('SUPER_ADMIN'), controller.readAllOfficeHandler);
 
     /**
     * @openapi
@@ -69,7 +69,7 @@ const router = express.Router();
     *       404:
     *         description: Office not found
     */
-    router.get('/api/offices/:id', SuperAdminAuthHandler, validateResource(readOfficeSchema), controller.readOfficeHandler);
+    router.get('/api/offices/:id', UserAuthHandler('SUPER_ADMIN'), validateResource(readOfficeSchema), controller.readOfficeHandler);
 
     /**
     * @openapi
@@ -99,7 +99,7 @@ const router = express.Router();
     *       404:
     *         description: Office not found
     */
-    router.put('/api/offices/:id', SuperAdminAuthHandler, validateResource(updateOfficeSchema), controller.updateOfficeHandler);
+    router.put('/api/offices/:id', UserAuthHandler('SUPER_ADMIN'), validateResource(updateOfficeSchema), controller.updateOfficeHandler);
 
     /**
     * @openapi
@@ -123,6 +123,6 @@ const router = express.Router();
     *       404:
     *         description: Office not found
     */
-router.delete('/api/offices/:id', SuperAdminAuthHandler, validateResource(deleteOfficeSchema), controller.deleteOfficeHandler);
+router.delete('/api/offices/:id', UserAuthHandler('SUPER_ADMIN'), validateResource(deleteOfficeSchema), controller.deleteOfficeHandler);
 
 export default router;

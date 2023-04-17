@@ -1,6 +1,6 @@
 import express from "express";
 import { createUserHandler, forgotPasswordHandler, verifyUserHandler, resetPasswordHandler, getCurrentUserHandler } from "../controllers/User";
-import {AdminAuthHandler} from "../controllers/User";
+import {UserAuthHandler} from "../middleware/roleBasedAuthentication";
 import validateResource from "../middleware/validateResources";
 import { createUserSchema, forgotPasswordSchema, resetPasswordSchema, verifyUserSchema } from "../schemas/User";
 
@@ -31,7 +31,7 @@ const router = express.Router();
     *      400: 
     *        description: Bad request
     */ 
-    router.post('/api/users', AdminAuthHandler, validateResource(createUserSchema), createUserHandler)
+    router.post('/api/users', UserAuthHandler('ADMIN'), validateResource(createUserSchema), createUserHandler)
 
     /**
     * @openapi
@@ -53,7 +53,7 @@ const router = express.Router();
     *      200:
     *        description: User is registered
     */
-    router.post('/api/users/:id/:verificationCode', AdminAuthHandler, validateResource(verifyUserSchema), verifyUserHandler);
+    router.post('/api/users/:id/:verificationCode', UserAuthHandler('ADMIN'), validateResource(verifyUserSchema), verifyUserHandler);
 
     /**
     * @openapi
@@ -80,7 +80,7 @@ const router = express.Router();
     *      400: 
     *        description: Bad request
     */
-    router.post('/api/users/forgotPassword', AdminAuthHandler, validateResource(forgotPasswordSchema), forgotPasswordHandler);
+    router.post('/api/users/forgotPassword', UserAuthHandler('ADMIN'), validateResource(forgotPasswordSchema), forgotPasswordHandler);
 
     /**
     * @openapi
@@ -102,7 +102,7 @@ const router = express.Router();
     *      200:
     *        description: User is registered
     */
-    router.post('/api/users/:id/:passwordResetCode', AdminAuthHandler, validateResource(resetPasswordSchema), resetPasswordHandler);
+    router.post('/api/users/:id/:passwordResetCode', UserAuthHandler('ADMIN'), validateResource(resetPasswordSchema), resetPasswordHandler);
 
     /**
     * @openapi

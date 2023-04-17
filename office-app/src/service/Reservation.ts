@@ -2,19 +2,19 @@ import ReservationModel, { Reservation } from "../models/Reservation";
 import { QueryOptions } from "mongoose";
 import { findAndUpdateDesk, findDeskById } from "./Desk";
 import { RequestBody } from "swagger-jsdoc";
+import { fill } from "lodash";
 
-export function createReservation(input: Partial<Reservation>, body: RequestBody){
+export async function createReservation(input: Partial<Reservation>, body: RequestBody){
+
     const deskId = body.deskId;
-    const desk =  findDeskById(deskId);
+    let desk =  await findDeskById(deskId);
     const fillSlots = body.slots;
-    const newSlots = desk?.availableSlots.filter((slot: any) => slot !== fillSlots);
-    const updatedDesk = {
-      availableSlots: newSlots,
-    }
-    const filter = {deskId};
-    const update = updatedDesk;
-    const newDesk = findAndUpdateDesk(filter, update, {});
+    const newSlots = desk!.availableSlots.filter((slot: any) => !fillSlots.includes(slot));
+
+    desk!.availableSlots = newSlots;
+    desk!.markModified('availableSlots');
     desk!.save();         //TODO: check the !
+
     return ReservationModel.create(input)
 }
 
@@ -41,4 +41,3 @@ export async function findAndUpdateReservation(
   ) {
     return ReservationModel.findOneAndUpdate(filter, update, options);
 }
-

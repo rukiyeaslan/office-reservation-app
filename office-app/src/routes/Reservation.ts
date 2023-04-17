@@ -1,6 +1,7 @@
 import express from 'express';
 import controller from '../controllers/Reservation';
 import validateResource from '../middleware/validateResources';
+import {UserAuthHandler} from "../middleware/roleBasedAuthentication";
 import { createReservationSchema, getAvailableSlotsSchema, updateReservationSchema } from '../schemas/Reservation';
 
 const router = express.Router();
@@ -30,7 +31,7 @@ const router = express.Router();
     *      400: 
     *        description: Bad request
     */ 
-    router.post('/api/reservations/', validateResource(createReservationSchema), controller.createReservationHandler);
+    router.post('/api/reservations/', UserAuthHandler('USER'), validateResource(createReservationSchema), controller.createReservationHandler);
 
     /**
     * @openapi  
@@ -47,14 +48,10 @@ const router = express.Router();
     *     responses:
     *       200:
     *         description: Success
-    *         content:
-    *          application/json:
-    *           schema:
-    *              $ref: '#/components/schema/Reservation'
     *       404:
     *         description: Desk not found
     */
-    router.get('/api/reservations/:id', validateResource(getAvailableSlotsSchema), controller.getAvailableSlotsHandler);
+    router.get('/api/reservations/:id', UserAuthHandler('USER'),  validateResource(getAvailableSlotsSchema), controller.getAvailableSlotsHandler);
 
 
     /**
@@ -85,7 +82,7 @@ const router = express.Router();
     *       404:
     *         description: Reservation not found
     */
-    router.put('/api/reservations/:id', validateResource(updateReservationSchema), controller.updateReservationHandler);
+    router.put('/api/reservations/:id', UserAuthHandler('USER'), validateResource(updateReservationSchema), controller.updateReservationHandler);
 
 
 export default router;
