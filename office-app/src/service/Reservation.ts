@@ -1,20 +1,10 @@
 import ReservationModel, { Reservation } from "../models/Reservation";
 import { QueryOptions } from "mongoose";
-import { findAndUpdateDesk, findDeskById } from "./Desk";
-import { RequestBody } from "swagger-jsdoc";
-import { fill } from "lodash";
+import { OfficeModel } from "../models/exportModels";
+import DeskModel from "../models/Desk";
+import { findOfficeById } from "./Office";
 
-export async function createReservation(input: Partial<Reservation>, body: RequestBody){
-
-    const deskId = body.deskId;
-    let desk =  await findDeskById(deskId);
-    const fillSlots = body.slots;
-    const newSlots = desk!.availableSlots.filter((slot: any) => !fillSlots.includes(slot));
-
-    desk!.availableSlots = newSlots;
-    desk!.markModified('availableSlots');
-    desk!.save();         //TODO: check the !
-
+export async function createReservation(input: Partial<Reservation>){
     return ReservationModel.create(input)
 }
 
@@ -28,16 +18,22 @@ export function findReservationById(id: string){
     return ReservationModel.findById(id);
 }
 
+export async function getReservations(day: string, officeId: string){
+
+    const allReservations = await ReservationModel.find({day, officeId});
+    const reservationsOfDay = [];
+    for(let res=0; res< allReservations .length; res++){
+        reservationsOfDay.push(allReservations [res].deskId);
+    }
+
+    console.log(reservationsOfDay);
+    return reservationsOfDay;
+}
+
 
 export function findReservationByIdAndDelete(id: string){
     return ReservationModel.findByIdAndRemove(id);
 }
 
 
-export async function findAndUpdateReservation(
-    filter: object,  
-    update: object,
-    options: QueryOptions
-  ) {
-    return ReservationModel.findOneAndUpdate(filter, update, options);
-}
+

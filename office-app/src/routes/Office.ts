@@ -119,7 +119,7 @@ const router = express.Router();
     *         content:
     *          application/json:
     *           schema:
-    *              $ref: '#/components/schema/Office'
+    *              $ref: '#/components/schemas/Office'
     *       404:
     *         description: Office not found
     */

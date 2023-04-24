@@ -8,16 +8,12 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *      type: object
  *      required:
  *        - name
- *        - availableSlots
  *        - office
  *        - organization
  *      properties:
  *        name:
  *          type: string
  *          default: desk1
- *        availableSlots:
- *          type: array
- *          default: ['1', '2', '3', '4', '5','6','7', '8']
  *        office:
  *          type: string
  *        organization:
@@ -27,8 +23,6 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *      properties:
  *        name:
  *          type: string
- *        availableSlots:
- *          type: array
  *        office:
  *          type: string 
  *        organization:
@@ -51,9 +45,6 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *        name:
  *          type: string
  *          default: desk1
- *        availableSlots:
- *          type: array
- *          default: ['1', '2', '3', '4', '5','6','7', '8']
  *        office:
  *          type: string
  *        organization:
@@ -64,8 +55,6 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *      properties:
  *        name:
  *          type: string
- *        availableSlots:
- *          type: array
  *        office:
  *          type: string 
  *        organization:
@@ -87,8 +76,6 @@ import {boolean, object, string, date, TypeOf, array} from 'zod';
  *      properties:
  *        name:
  *          type: string
- *        availableSlots:
- *          type: array
  *        office:
  *          type: number
  *        organization:
@@ -100,8 +87,6 @@ export const createDeskSchema = object({
         name: string({
             required_error: "Desk name is required"
         }),
-        // reserved: boolean(),
-        availableSlots: array(string()),
         
         office: string({
             required_error: "Office id is required"
@@ -126,7 +111,6 @@ export const updateDeskSchema = object({
     }),
     body: object({
         name: string(),
-        availableSlots: array(string()),
         office: string(),
         organization: string(),
     })

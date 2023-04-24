@@ -121,7 +121,7 @@ const router = express.Router();
     *         content:
     *          application/json:
     *           schema:
-    *              $ref: '#/components/schema/Organization'
+    *              $ref: '#/components/schemas/Organization'
     *       404:
     *         description: Organization not found
     */

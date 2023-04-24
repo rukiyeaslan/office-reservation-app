@@ -1,59 +1,57 @@
 import { NextFunction, Request, Response } from "express";
-import { GetAvailableSlotsInput, UpdateReservationInput } from "../schemas/Reservation";
-import { findAndUpdateDesk, findDesk, findDeskById } from "../service/Desk";
-import { createReservation, findAndUpdateReservation } from "../service/Reservation";
+import { GetReservationsInput } from "../schemas/Reservation";
+import { findDeskById } from "../service/Desk";
+import { findOfficeById } from "../service/Office";
+import { createReservation, findReservationByIdAndDelete, getReservations } from "../service/Reservation";
 
 
 const createReservationHandler = async (req: Request, res: Response, next: NextFunction)=>{
     const body = req.body;
-    const deskId = req.body.deskId;
-    console.log(body);
+    const { day, officeId, deskId} = body
     try{
-          //add newly created desk to its offices's desks array
-          const reservation = await createReservation(body, body);
-
+          const office = findOfficeById(officeId);
+          if(!office){
+            return res.status(404).send('could not find the office');
+          }
+          const desk = findDeskById(deskId);
+          if(!desk){
+            return res.status(404).send('could not find the desk');
+          }
+          
+          const reservationsOnThatDay = await getReservations(day, officeId);
+          if(reservationsOnThatDay.includes(deskId)){
+            return res.status(404).send("Desk is already reserved");
+          }
+          const reservation = await createReservation(body);
           return res.status(200).send("Reservation sucessfully created");
         } catch (e: any) {
           return res.status(500).send(e);
   }};
 
-//TODO: check the file, should this function be in desk.ts or reservation.ts
-async function getAvailableSlotsHandler(req: Request<GetAvailableSlotsInput, {}, {}>, res: Response, next: NextFunction){
-    const id = req.params.id;
+
+async function getReservationsHandler(req: Request<GetReservationsInput, {}, {}>, res: Response, next: NextFunction){
+
+    const day = req.params.day;
+    const office = req.params.office;
     try{
-      const desk = await findDeskById(id);
-      
-      if(desk){
-        const availableSlots = desk?.availableSlots;
-        console.log(availableSlots);
-        return res.status(200).json(availableSlots);
-      }
-      return res.status(404).send("Couldn't find the desk"!);
+      const reservations = await getReservations(day, office);
+      return res.status(200).json(reservations);
     }
     catch(e: any){
       return res.status(404).send(e);
     }
 };
 
-async function updateReservationHandler(req: Request<UpdateReservationInput['params'], {}, UpdateReservationInput['body']>, res: Response, next: NextFunction){
-    const body = req.body;
-    const id = req.params.id;
-    try{
-        const filter = {id};
-        const update = body;
-        const reservation =  await findAndUpdateReservation(filter, update, {});
-        reservation!.save();         //TODO: check the !
-    
-        return res.send('Successfully updated desk');
-  
-    }catch(e: any){
-      if (e.code === '11000') {
-        console.log("unique name error");  //TODO: check this error again
-      }
-      return res.status(500).send(e);
-    }
-  };
 
-export default { createReservationHandler, getAvailableSlotsHandler, updateReservationHandler}; 
+const deleteReservationHandler = async (req: Request, res: Response, next: NextFunction)=>{
+  const deskId = req.params.id;
+
+  return await findReservationByIdAndDelete(deskId)
+      .then((desk: any) => (desk ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
+      .catch((error: any) => res.status(500).json({ error }));
+};
+
+
+export default { createReservationHandler, getReservationsHandler, deleteReservationHandler}; 
 
   

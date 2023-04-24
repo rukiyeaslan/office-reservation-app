@@ -6,11 +6,17 @@ const createOfficeHandler = async (req: Request, res: Response, next: NextFuncti
     const body = req.body;
     console.log(body);
     try{
-          //add newly created office to its organization's offices array
-          const office = await createNewOffice(body);
-          return res.status(200).send("office sucessfully created");
-        } catch (err: any) {
-          return res.status(500).send(err);
+          
+        const organization = findOfficeById(body.office);
+        if(!organization){
+        return res.status(404).send("could not find the organization");
+        }
+    
+        const office = await createNewOffice(body);
+        organization.offices.push(office);
+        return res.status(200).send(office);
+    } catch (err: any) {
+        return res.status(500).send(err);
 }};
 
 
@@ -29,7 +35,7 @@ const readAllOfficeHandler = (req: Request, res: Response, next: NextFunction)=>
 };
 
 
-//TODO: relational deletions and updates
+
 export async function  updateOfficeHandler(req: Request<UpdateOfficeInput['params'], {}, UpdateOfficeInput['body']>, res: Response, next: NextFunction){
     const body = req.body;
     const id = req.params.id;
@@ -47,10 +53,8 @@ export async function  updateOfficeHandler(req: Request<UpdateOfficeInput['param
 };
 
 
-//TODO: update organization
 export async function deleteOfficeHandler(req: Request<DeleteOfficeInput, {}, {}>, res: Response){
     const id = req.params.id;
-    console.log(id);
     try{
         await findOfficeByIdAndDelete(id);
         return res.status(200).send("Office successfully deleted.");

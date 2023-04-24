@@ -121,7 +121,7 @@ const router = express.Router();
     *         content:
     *          application/json:
     *           schema:
-    *              $ref: '#/components/schema/Desk'
+    *              $ref: '#/components/schemas/Desk'
     *       404:
     *         description: Desk not found
     */

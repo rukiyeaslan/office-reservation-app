@@ -1,15 +1,24 @@
 import { NextFunction, Request, Response } from "express";
 import { ReadDeskInput, UpdateDeskInput } from "../schemas/Desk";
 import { createDesk, findAndUpdateDesk, findDesk, findDeskById, findDeskByIdAndDelete } from "../service/Desk";
+import { findOfficeById } from "../service/Office";
 
 
-//Request<{}, {}, CreateDeskInput> gives types of "office" are not compatible error
 const createDeskHandler = async (req: Request, res: Response, next: NextFunction)=>{
   const body = req.body;
   console.log(body);
   try{
+      
+        const office = findOfficeById(body.office);
+        if(!office){
+          return res.status(404).send("could not find the office");
+        }
+        
         const desk = await createDesk(body);
-        return res.status(200).send("desk sucessfully created");
+        office.desks.push(desk);
+        office.save();
+
+        return res.status(200).send("desk");
       } catch (err: any) {
         return res.status(500).send(err);
 }};
@@ -30,7 +39,6 @@ const readAllDeskHandler = async (req: Request, res: Response) => {
 };
 
 
-//TODO: update organization
 export async function  updateDeskHandler(req: Request<UpdateDeskInput['params'], {}, UpdateDeskInput['body']>, res: Response, next: NextFunction){
   const body = req.body;
   const id = req.params.id;
@@ -38,7 +46,7 @@ export async function  updateDeskHandler(req: Request<UpdateDeskInput['params'],
       const filter = {id};
       const update = body;
       const desk =  await findAndUpdateDesk(filter, update, {});
-      desk!.save();         //TODO: check the !
+      desk!.save();    
   
       return res.send('successfully updated desk');
 
@@ -55,7 +63,7 @@ const deleteDeskHandler = async (req: Request, res: Response, next: NextFunction
     const deskId = req.params.id;
 
     return await findDeskByIdAndDelete(deskId)
-        .then((desk: any) => (desk ? res.status(201).json({message: 'deleted'}) : res.status(404).json({message: 'Not found'})))
+        .then((desk: any) => (desk ? res.status(201).json({message: 'desk is deleted'}) : res.status(404).json({message: 'desk not found'})))
         .catch((error: any) => res.status(500).json({ error }));
 };
 

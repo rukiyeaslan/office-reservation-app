@@ -1,15 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { findOrganizationById, findOrganizationByIdAndDelete, createNewOrganization, findOrganization, findAndUpdateOrganization} from '../service/Organization';
 import {OrganizationModel} from '../models/exportModels';
-import { findOfficeById, findOfficeByIdAndDelete,  } from '../service/Office';
 import { CreateOrganizationInput, UpdateOrganizationInput } from '../schemas/Organization';
 
 export async function createOrganizationHandler(req: Request<{}, {}, CreateOrganizationInput> , res: Response){
     const body = req.body;
-    console.log(body);
+
     try{
-          const newOrganization = createNewOrganization(body);
-          return res.status(200).send("organization sucessfully created");
+          const organization = createNewOrganization(body);
+          return res.status(200).send(organization);
         } catch (e: any) {
           console.error(e);
           return res.status(500).send(e);
@@ -48,7 +47,7 @@ export async function  updateOrganizationHandler(req: Request<UpdateOrganization
     }
 };
 
-//TODO: relational deletions
+
 export async function deleteOrganizationHandler(req: Request, res: Response){
     
     const id = req.params.id;
@@ -60,4 +59,3 @@ export async function deleteOrganizationHandler(req: Request, res: Response){
     }
 };
 
-//export default { createOrganizationHandler, readOrganizationHandler, readAllOrganizationHandler, updateOrganizationHandler, deleteOrganizationHandler};

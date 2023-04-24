@@ -2,7 +2,7 @@ import express from 'express';
 import controller from '../controllers/Reservation';
 import validateResource from '../middleware/validateResources';
 import {UserAuthHandler} from "../middleware/roleBasedAuthentication";
-import { createReservationSchema, getAvailableSlotsSchema, updateReservationSchema } from '../schemas/Reservation';
+import { createReservationSchema, deleteReservationSchema, getReservationsSchema } from '../schemas/Reservation';
 
 const router = express.Router();
 
@@ -35,54 +35,50 @@ const router = express.Router();
 
     /**
     * @openapi  
-    * '/api/reservations/{id}':
+    * '/api/reservations/{day}/{office}':
     *  get:
     *     tags:
     *     - Reservation
-    *     summary: Get free slots by the id of the desk
+    *     summary: Get free slots by the day
     *     parameters:
-    *      - name: id
+    *      - name: day
     *        in: path
-    *        description: The id of the desk
+    *        description: day
+    *        required: true
+    *      - name: office
+    *        in: path
+    *        description: office
     *        required: true
     *     responses:
     *       200:
     *         description: Success
     *       404:
-    *         description: Desk not found
+    *         description: Reservation not found
     */
-    router.get('/api/reservations/:id', UserAuthHandler('USER'),  validateResource(getAvailableSlotsSchema), controller.getAvailableSlotsHandler);
+    router.get('/api/reservations/:day/:office', UserAuthHandler('USER'),  validateResource(getReservationsSchema), controller.getReservationsHandler);
 
 
     /**
     * @openapi
     * '/api/reservations/{id}':
-    *  put:
+    *  delete:
     *     tags:
     *     - Reservation
-    *     summary: Update a reservation by id
+    *     summary: Delete a single reservation by the id
     *     parameters:
     *      - name: id
     *        in: path
     *        description: The id of the reservation
     *        required: true
-    *     requestBody:
-    *       required: true
-    *       content:
-    *           application/json:
-    *               schema:
-    *                   $ref: '#/components/schemas/UpdateReservationInput'
     *     responses:
     *       200:
     *         description: Success
     *         content:
-    *           application/json:
-    *             schema:
-    *               $ref: '#/components/schemas/UpdateReservationResponse'
+    *          application/json:
+    *           schema:
+    *              $ref: '#/components/schemas/Reservation'
     *       404:
     *         description: Reservation not found
     */
-    router.put('/api/reservations/:id', UserAuthHandler('USER'), validateResource(updateReservationSchema), controller.updateReservationHandler);
-
-
+    router.delete('/api/desks/:id', UserAuthHandler('USER'), validateResource(deleteReservationSchema), controller.deleteReservationHandler);
 export default router;
