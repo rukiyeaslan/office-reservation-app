@@ -55,7 +55,7 @@ const router = express.Router();
     *  get:
     *     tags:
     *     - Organization
-    *     summary: Get a single organization by the id
+    *     summary: Get an organization
     *     parameters:
     *      - name: id
     *        in: path
@@ -79,7 +79,7 @@ const router = express.Router();
     *  put:
     *     tags:
     *     - Organization
-    *     summary: Update a organization by id
+    *     summary: Update an organization
     *     parameters:
     *      - name: id
     *        in: path
@@ -109,7 +109,7 @@ const router = express.Router();
     *  delete:
     *     tags:
     *     - Organization
-    *     summary: Delete a single organizationby the id
+    *     summary: Delete an organization
     *     parameters:
     *      - name: id
     *        in: path

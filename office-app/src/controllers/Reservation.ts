@@ -11,17 +11,19 @@ const createReservationHandler = async (req: Request, res: Response, next: NextF
     try{
           const office = findOfficeById(officeId);
           if(!office){
-            return res.status(404).send('could not find the office');
+            return res.status(404).send('office not found');
           }
+
           const desk = findDeskById(deskId);
           if(!desk){
-            return res.status(404).send('could not find the desk');
+            return res.status(404).send('desk not found');
           }
           
           const reservationsOnThatDay = await getReservations(day, officeId);
           if(reservationsOnThatDay.includes(deskId)){
             return res.status(404).send("Desk is already reserved");
           }
+          
           const reservation = await createReservation(body);
           return res.status(200).send("Reservation sucessfully created");
         } catch (e: any) {

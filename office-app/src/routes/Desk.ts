@@ -53,7 +53,7 @@ const router = express.Router();
     *  get:
     *     tags:
     *     - Desk
-    *     summary: Get a single desk by the id
+    *     summary: Get a single desk
     *     parameters:
     *      - name: id
     *        in: path
@@ -79,7 +79,7 @@ const router = express.Router();
     *  put:
     *     tags:
     *     - Desk
-    *     summary: Update a desk by id
+    *     summary: Update a desk
     *     parameters:
     *      - name: id
     *        in: path
@@ -109,7 +109,7 @@ const router = express.Router();
     *  delete:
     *     tags:
     *     - Desk
-    *     summary: Delete a single desk by the id
+    *     summary: Delete a desk
     *     parameters:
     *      - name: id
     *        in: path

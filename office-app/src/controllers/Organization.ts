@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { findOrganizationById, findOrganizationByIdAndDelete, createNewOrganization, findOrganization, findAndUpdateOrganization} from '../service/Organization';
-import {OrganizationModel} from '../models/exportModels';
 import { CreateOrganizationInput, UpdateOrganizationInput } from '../schemas/Organization';
 
 export async function createOrganizationHandler(req: Request<{}, {}, CreateOrganizationInput> , res: Response){
@@ -9,6 +8,7 @@ export async function createOrganizationHandler(req: Request<{}, {}, CreateOrgan
     try{
           const organization = createNewOrganization(body);
           return res.status(200).send(organization);
+          
         } catch (e: any) {
           console.error(e);
           return res.status(500).send(e);

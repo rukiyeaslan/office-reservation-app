@@ -13,10 +13,7 @@ export class Reservation {
 
   @prop({ required: true })
   officeId!: string;
-
-  // @prop({ type: () => [String], required: true })
-  // slots!: string[];
-
+  
   @prop({ required: true, default: Date.now })
   createdAt?: Date;
 

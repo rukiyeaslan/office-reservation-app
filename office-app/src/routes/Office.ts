@@ -53,7 +53,7 @@ const router = express.Router();
     *  get:
     *     tags:
     *     - Office
-    *     summary: Get a single office by the id
+    *     summary: Get an office
     *     parameters:
     *      - name: id
     *        in: path
@@ -77,7 +77,7 @@ const router = express.Router();
     *  put:
     *     tags:
     *     - Office
-    *     summary: Update a office by id
+    *     summary: Update an office
     *     parameters:
     *      - name: id
     *        in: path
@@ -91,7 +91,7 @@ const router = express.Router();
     *                   $ref: '#/components/schemas/UpdateOfficeInput'
     *     responses:
     *       200:
-    *         description: Office is successfullt updated
+    *         description: Office is successfully updated
     *         content:
     *           application/json:
     *             schema:
@@ -107,7 +107,7 @@ const router = express.Router();
     *  delete:
     *     tags:
     *     - Office
-    *     summary: Delete a single office by the id
+    *     summary: Delete an office
     *     parameters:
     *      - name: id
     *        in: path

@@ -11,7 +11,7 @@ const createDeskHandler = async (req: Request, res: Response, next: NextFunction
       
         const office = findOfficeById(body.office);
         if(!office){
-          return res.status(404).send("could not find the office");
+          return res.status(404).send("office not found");
         }
         
         const desk = await createDesk(body);
@@ -27,7 +27,7 @@ const createDeskHandler = async (req: Request, res: Response, next: NextFunction
 const readDeskHandler = async (req: Request<ReadDeskInput, {}, {}>, res: Response, next: NextFunction)=>{
     const id = req.params.id;
     return await findDeskById(id)
-        .then((desk: any) => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'not found!'}))
+        .then((desk: any) => desk ? res.status(200).json({desk}) : res.status(404).json({message: 'desk not found!'}))
         .catch((error: any) => res.status(404).json({error}));
 };
 

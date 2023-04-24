@@ -39,7 +39,7 @@ const router = express.Router();
     *  get:
     *     tags:
     *     - Reservation
-    *     summary: Get free slots by the day
+    *     summary: Get all reservations on that day
     *     parameters:
     *      - name: day
     *        in: path
@@ -64,7 +64,7 @@ const router = express.Router();
     *  delete:
     *     tags:
     *     - Reservation
-    *     summary: Delete a single reservation by the id
+    *     summary: Delete a reservation
     *     parameters:
     *      - name: id
     *        in: path

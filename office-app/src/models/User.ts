@@ -8,8 +8,8 @@ import {
     index,
   } from "@typegoose/typegoose";
 import { nanoid } from "nanoid";
-// import argon2 from "argon2";
 import argon2 from 'argon2'; 
+
 export const privateFields = [
     "password",
     "__v",

@@ -4,16 +4,16 @@ import { DeleteOfficeInput, UpdateOfficeInput } from '../schemas/Office';
 
 const createOfficeHandler = async (req: Request, res: Response, next: NextFunction)=>{
     const body = req.body;
-    console.log(body);
     try{
-          
         const organization = findOfficeById(body.office);
+
         if(!organization){
-        return res.status(404).send("could not find the organization");
+        return res.status(404).send("organization not found");
         }
     
         const office = await createNewOffice(body);
         organization.offices.push(office);
+        
         return res.status(200).send(office);
     } catch (err: any) {
         return res.status(500).send(err);

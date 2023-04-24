@@ -61,7 +61,7 @@ const router = express.Router();
     *  post:
     *     tags:
     *     - User
-    *     summary: Register a user
+    *     summary: Forgot password
     *     requestBody:
     *      required: true
     *      content:
@@ -88,7 +88,7 @@ const router = express.Router();
     *  post:
     *     tags:
     *     - User
-    *     summary: Verify a user
+    *     summary: Reset password
     *     parameters:
     *      - name: id
     *        in: path

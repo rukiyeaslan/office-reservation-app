@@ -21,11 +21,9 @@ export const privateFields = [
     },
   })
 export class Office {
-    //TODO: name unique only in the same organization
     @prop({ required: true, unique: true })
     name: string;
 
-    //TODO:refleri azalt
     @prop({ required: true, ref: () => typeof Desk})
     desks: Ref<typeof Desk>[];
   
